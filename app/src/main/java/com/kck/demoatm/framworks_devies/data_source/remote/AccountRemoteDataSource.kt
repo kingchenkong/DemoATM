@@ -5,5 +5,9 @@ import com.kck.demoatm.entities.Account
 class AccountRemoteDataSource() : IAccountRemoteDataSource {
     override suspend fun getAccount(
         serialNumber: String, password: String
-    ): Result<List<Account>> = Result.success(listOf(Account.defaultAccount))
+    ): Result<Account> = Result.success(Account.defaultAccount)
+
+    override suspend fun login(
+        serialNumber: String, password: String
+    ): Result<Account> = Result.success(Account.defaultAccount)
 }

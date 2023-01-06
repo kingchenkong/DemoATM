@@ -9,6 +9,7 @@ import com.kck.demoatm.framworks_devies.database.models.AccountDB
 import com.kck.demoatm.getAccountDBMock1
 import com.kck.demoatm.getAccountDBMock2
 import com.kck.demoatm.getAccountDBMock3
+import org.koin.core.context.GlobalContext
 
 class DatabaseProviderImpl(context: Context) : IDatabaseProvider {
 
@@ -35,18 +36,32 @@ class DatabaseProviderImpl(context: Context) : IDatabaseProvider {
             database.accountDao().addAccount(getAccountDBMock1())
             database.accountDao().addAccount(getAccountDBMock2())
             database.accountDao().addAccount(getAccountDBMock3())
+            Log.e("DatabaseProviderImpl", "initialize: execute init db.")
+        } else {
+
+            Log.e("DatabaseProviderImpl", "initialize: stop init db.")
         }
     }
 
     override suspend fun getAllAccount(): List<AccountDB> = database.accountDao().getAll()
 
-    override suspend fun getAccountList(
+    override suspend fun getAccount(
         serialNumber: String,
         password: String
-    ): List<AccountDB> =
-        database.accountDao().getAccountList(
+    ): AccountDB =
+        database.accountDao().getAccount(
             serialNumber = serialNumber,
             password = password
         )
+
+    override suspend fun login(
+        serialNumber: String,
+        password: String
+    ): AccountDB =
+        database.accountDao().getAccount(
+            serialNumber = serialNumber,
+            password = password
+        )
+
 
 }

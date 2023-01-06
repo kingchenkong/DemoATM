@@ -6,5 +6,10 @@ interface IAccountDataSource {
     suspend fun getAccount(
         serialNumber: String,
         password: String,
-    ): Result<List<Account>>
+    ): Result<Account>
+
+    suspend fun login(
+        serialNumber: String,
+        password: String,
+    ): Result<Account>
 }

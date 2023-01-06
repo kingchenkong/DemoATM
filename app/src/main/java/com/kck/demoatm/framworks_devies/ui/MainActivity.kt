@@ -1,20 +1,19 @@
 package com.kck.demoatm.framworks_devies.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
-import com.kck.demoatm.ACC_PWD_DEF
-import com.kck.demoatm.ACC_SN_DEF
-import com.kck.demoatm.R
-import com.kck.demoatm.SourceType
+import com.kck.demoatm.*
 import com.kck.demoatm.databinding.ActivityMainBinding
-import com.kck.demoatm.framworks_devies.data_source.local.AccountLocalDataSourceImpl
-import com.kck.demoatm.framworks_devies.database.data_provider.DatabaseProviderImpl
+import com.kck.demoatm.framworks_devies.data_source.local.IAccountLocalDataSource
+import com.kck.demoatm.framworks_devies.database.data_provider.IDatabaseProvider
 import com.kck.demoatm.interface_adapters.presenters.AccountViewModel
-import com.kck.demoatm.interface_adapters.repositories.AccountRepositoryImpl
+import com.kck.demoatm.interface_adapters.repositories.IAccountRepository
+import com.kck.demoatm.use_cases.LoginUseCase
+import org.koin.core.context.GlobalContext
 
 class MainActivity : AppCompatActivity() {
     private val TAG: String = MainActivity::class.java.simpleName
@@ -45,18 +44,18 @@ class MainActivity : AppCompatActivity() {
         Log.e(TAG, "test: sn: $sn, pwd: $pwd")
 
         // data provider
-        val dataProvider = DatabaseProviderImpl(this)
+        val dataProvider: IDatabaseProvider by GlobalContext.get().inject()
 //        val accountDBList = dataProvider.getAccountList(serialNum, password)
 //        Log.e(TAG, "test: accountDB list size: ${accountDBList.size}")
 //        Log.e(TAG, "test: accountDB list: $accountDBList")
 
         // data source
-        val localDataSource = AccountLocalDataSourceImpl(dataProvider)
+        val localDataSource: IAccountLocalDataSource by GlobalContext.get().inject()
 //        val result = localDataSource.getAccount(sn, pwd)
 //        Log.e(TAG, "test: result: $result")
 
         // repository
-        val repository = AccountRepositoryImpl(sn, pwd, localDataSource)
+        val repository: IAccountRepository by GlobalContext.get().inject()
 //        val result = repository.getAccount(SourceType.LOCAL)
 //        Log.e(TAG, "test: result: $result")
         val allAcc = repository.getAll()
@@ -65,6 +64,19 @@ class MainActivity : AppCompatActivity() {
             count += 1
             Log.e(TAG, "test: account: $count, $it")
         }
+
+        val accDef = repository.login(SourceType.LOCAL, ACC_SN_DEF, ACC_PWD_DEF)
+        Log.e(TAG, "test: accDef: $accDef")
+        val accMock1 = repository.login(SourceType.LOCAL, MOCK_1_ACC_SN, MOCK_1_ACC_PWD)
+        Log.e(TAG, "test: accMock1: $accMock1")
+
+        // useCase
+        val loginUseCase: LoginUseCase by GlobalContext.get().inject()
+
+        val accMock2 = loginUseCase.login(MOCK_2_ACC_SN, MOCK_2_ACC_PWD)
+        Log.e(TAG, "test: accMock2 $accMock2")
+        val accMock3 = loginUseCase.login(MOCK_3_ACC_SN, MOCK_3_ACC_PWD)
+        Log.e(TAG, "test: accMock3: $accMock3")
 
     }
 }

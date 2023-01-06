@@ -4,10 +4,11 @@ import android.util.Log
 import com.kck.demoatm.entities.Account
 import com.kck.demoatm.framworks_devies.database.data_provider.IDatabaseProvider
 import com.kck.demoatm.interface_adapters.mappers.toEntity
+import org.koin.core.context.GlobalContext
 
-class AccountLocalDataSourceImpl(
-    private val dataProvider: IDatabaseProvider
-) : IAccountLocalDataSource {
+class AccountLocalDataSourceImpl : IAccountLocalDataSource {
+    private val dataProvider: IDatabaseProvider by GlobalContext.get().inject()
+
     override suspend fun getAllAccount(): List<Account> {
         dataProvider.getAllAccount().let {
             val list: MutableList<Account> = mutableListOf()
@@ -19,11 +20,20 @@ class AccountLocalDataSourceImpl(
     }
 
     override suspend fun getAccount(
-        serialNumber: String, password: String
-    ): Result<List<Account>> = dataProvider.getAccountList(serialNumber, password).let {
-        Result.success(it.map { accountDB ->
-            Log.e("AccountLocalDataSourceImpl", "getAccount: accountDB: $accountDB")
-            accountDB.toEntity()
-        })
+        serialNumber: String,
+        password: String
+    ): Result<Account> = dataProvider.getAccount(serialNumber, password).let {
+        Log.e("AccountLocalDataSourceImpl", "getAccount: accountDB: $it")
+        Result.success(it.toEntity())
     }
+
+    override suspend fun login(
+        serialNumber: String,
+        password: String
+    ): Result<Account> =
+        dataProvider.login(serialNumber, password).let {
+            Log.e("AccountLocalDataSourceImpl", "login: accountDB: $it")
+            Result.success(it.toEntity())
+        }
+
 }

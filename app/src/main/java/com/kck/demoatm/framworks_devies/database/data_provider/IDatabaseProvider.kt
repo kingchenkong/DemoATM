@@ -6,5 +6,7 @@ interface IDatabaseProvider {
     suspend fun initialize()
 
     suspend fun getAllAccount(): List<AccountDB>
-    suspend fun getAccountList(serialNumber: String, password: String): List<AccountDB>
+    suspend fun getAccount(serialNumber: String, password: String): AccountDB
+    suspend fun login(serialNumber: String, password: String): AccountDB
+
 }

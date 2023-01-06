@@ -13,10 +13,21 @@ interface AccountDao {
     suspend fun getAll(): List<AccountDB>
 
     @Query("SELECT * FROM account WHERE serialNumber == :serialNumber AND password == :password")
-    suspend fun getAccountList(
+    suspend fun getAccount(
         serialNumber: String,
         password: String,
-    ): List<AccountDB>
+    ): AccountDB
+
+    @Query("SELECT * FROM account WHERE serialNumber == :serialNumber AND password == :password")
+    suspend fun login(
+        serialNumber: String,
+        password: String,
+    ): AccountDB
+
+    @Query("SELECT * FROM account WHERE id = :id")
+    suspend fun getAccountById(
+        id: Int
+    ): AccountDB
 
     @Insert
     suspend fun addAccount(account: AccountDB)

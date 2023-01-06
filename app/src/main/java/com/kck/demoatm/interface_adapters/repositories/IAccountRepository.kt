@@ -5,5 +5,15 @@ import com.kck.demoatm.entities.Account
 
 interface IAccountRepository {
     suspend fun getAll(): List<Account>
-    suspend fun getAccount(sourceType: SourceType): Account
+    suspend fun getAccount(
+        sourceType: SourceType,
+        serialNumber: String,
+        password: String
+    ): Account
+
+    suspend fun login(
+        sourceType: SourceType,
+        serialNumber: String,
+        password: String
+    ): Result<Account>
 }
