@@ -5,8 +5,7 @@ import com.kck.demoatm.entities.Account
 import com.kck.demoatm.interface_adapters.repositories.IAccountRepository
 import org.koin.core.context.GlobalContext
 
-class LoginUseCase(
-) {
+class LoginUseCase {
     private val repository: IAccountRepository by GlobalContext.get().inject()
 
     suspend fun login(

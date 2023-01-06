@@ -13,6 +13,7 @@ import com.kck.demoatm.framworks_devies.database.data_provider.IDatabaseProvider
 import com.kck.demoatm.interface_adapters.presenters.AccountViewModel
 import com.kck.demoatm.interface_adapters.repositories.IAccountRepository
 import com.kck.demoatm.use_cases.LoginUseCase
+import com.kck.demoatm.use_cases.QueryBalanceUseCase
 import org.koin.core.context.GlobalContext
 
 class MainActivity : AppCompatActivity() {
@@ -65,17 +66,17 @@ class MainActivity : AppCompatActivity() {
             Log.e(TAG, "test: account: $count, $it")
         }
 
-        val accDef = repository.login(SourceType.LOCAL, ACC_SN_DEF, ACC_PWD_DEF)
-        Log.e(TAG, "test: accDef: $accDef")
-        val accMock1 = repository.login(SourceType.LOCAL, MOCK_1_ACC_SN, MOCK_1_ACC_PWD)
-        Log.e(TAG, "test: accMock1: $accMock1")
-
         // useCase
         val loginUseCase: LoginUseCase by GlobalContext.get().inject()
+        val queryBalanceUseCase: QueryBalanceUseCase by GlobalContext.get().inject()
 
-        val accMock2 = loginUseCase.login(MOCK_2_ACC_SN, MOCK_2_ACC_PWD)
+        val accDef = queryBalanceUseCase.invoke( ACC_SN_DEF, ACC_PWD_DEF)
+        Log.e(TAG, "test: accDef: $accDef")
+        val accMock1 = queryBalanceUseCase.invoke( MOCK_1_ACC_SN, MOCK_1_ACC_PWD)
+        Log.e(TAG, "test: accMock1: $accMock1")
+        val accMock2 = queryBalanceUseCase.invoke(MOCK_2_ACC_SN, MOCK_2_ACC_PWD)
         Log.e(TAG, "test: accMock2 $accMock2")
-        val accMock3 = loginUseCase.login(MOCK_3_ACC_SN, MOCK_3_ACC_PWD)
+        val accMock3 = queryBalanceUseCase.invoke(MOCK_3_ACC_SN, MOCK_3_ACC_PWD)
         Log.e(TAG, "test: accMock3: $accMock3")
 
     }
