@@ -8,6 +8,15 @@ import com.kck.demoatm.interface_adapters.mappers.toEntity
 class AccountLocalDataSourceImpl(
     private val dataProvider: IDatabaseProvider
 ) : IAccountLocalDataSource {
+    override suspend fun getAllAccount(): List<Account> {
+        dataProvider.getAllAccount().let {
+            val list: MutableList<Account> = mutableListOf()
+            it.forEach { accountDB ->
+                list.add(accountDB.toEntity())
+            }
+            return list
+        }
+    }
 
     override suspend fun getAccount(
         serialNumber: String, password: String

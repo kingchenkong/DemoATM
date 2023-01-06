@@ -9,6 +9,9 @@ class AccountRepositoryImpl(
     private val password: String,
     private val localDataSource: IAccountLocalDataSource,
 ) : IAccountRepository {
+    override suspend fun getAll(): List<Account> {
+        return localDataSource.getAllAccount()
+    }
 
     override suspend fun getAccount(sourceType: SourceType): Account {
         return if (sourceType == SourceType.LOCAL) {

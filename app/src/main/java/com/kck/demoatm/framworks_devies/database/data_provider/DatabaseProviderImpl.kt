@@ -4,12 +4,11 @@ import android.content.Context
 import android.util.Log
 import androidx.annotation.VisibleForTesting
 import androidx.room.Room
-import com.kck.demoatm.ACCOUNT_BALANCE_DEF
-import com.kck.demoatm.ACCOUNT_DISPLAY_NAME_DEF
-import com.kck.demoatm.ACCOUNT_PASSWORD_DEF
-import com.kck.demoatm.ACCOUNT_SERIAL_NUM_DEF
 import com.kck.demoatm.framworks_devies.database.dao.DemoDatabase
 import com.kck.demoatm.framworks_devies.database.models.AccountDB
+import com.kck.demoatm.getAccountDBMock1
+import com.kck.demoatm.getAccountDBMock2
+import com.kck.demoatm.getAccountDBMock3
 
 class DatabaseProviderImpl(context: Context) : IDatabaseProvider {
 
@@ -33,6 +32,9 @@ class DatabaseProviderImpl(context: Context) : IDatabaseProvider {
         Log.e("DatabaseProviderImpl", "initialize: all Account size: ${allAccount.size}")
         if (allAccount.isEmpty()) {
             database.accountDao().addAccount(AccountDB.defaultAccountDB)
+            database.accountDao().addAccount(getAccountDBMock1())
+            database.accountDao().addAccount(getAccountDBMock2())
+            database.accountDao().addAccount(getAccountDBMock3())
         }
     }
 

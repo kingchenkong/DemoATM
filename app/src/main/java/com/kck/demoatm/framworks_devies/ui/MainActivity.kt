@@ -6,8 +6,8 @@ import android.util.Log
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
-import com.kck.demoatm.ACCOUNT_PASSWORD_DEF
-import com.kck.demoatm.ACCOUNT_SERIAL_NUM_DEF
+import com.kck.demoatm.ACC_PWD_DEF
+import com.kck.demoatm.ACC_SN_DEF
 import com.kck.demoatm.R
 import com.kck.demoatm.SourceType
 import com.kck.demoatm.databinding.ActivityMainBinding
@@ -40,22 +40,31 @@ class MainActivity : AppCompatActivity() {
 //        val account = accountRepository.getAccount(SourceType.LOCAL)
 //        Log.e(TAG, "test: account: $account")
 
-        val sn = ACCOUNT_SERIAL_NUM_DEF
-        val pwd = ACCOUNT_PASSWORD_DEF
+        val sn = ACC_SN_DEF
+        val pwd = ACC_PWD_DEF
         Log.e(TAG, "test: sn: $sn, pwd: $pwd")
 
+        // data provider
         val dataProvider = DatabaseProviderImpl(this)
 //        val accountDBList = dataProvider.getAccountList(serialNum, password)
 //        Log.e(TAG, "test: accountDB list size: ${accountDBList.size}")
 //        Log.e(TAG, "test: accountDB list: $accountDBList")
 
+        // data source
         val localDataSource = AccountLocalDataSourceImpl(dataProvider)
 //        val result = localDataSource.getAccount(sn, pwd)
 //        Log.e(TAG, "test: result: $result")
 
+        // repository
         val repository = AccountRepositoryImpl(sn, pwd, localDataSource)
-        val result = repository.getAccount(SourceType.LOCAL)
-        Log.e(TAG, "test: result: $result")
+//        val result = repository.getAccount(SourceType.LOCAL)
+//        Log.e(TAG, "test: result: $result")
+        val allAcc = repository.getAll()
+        var count = 0
+        allAcc.forEach {
+            count += 1
+            Log.e(TAG, "test: account: $count, $it")
+        }
 
     }
 }

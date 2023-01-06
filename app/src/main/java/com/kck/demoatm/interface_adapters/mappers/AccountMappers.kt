@@ -12,7 +12,6 @@ fun AccountDB.toEntity(): Account {
         id = id,
         serialNumber = serialNumber,
         password = password,
-        displayName = displayName,
         balance = balance,
     )
 }
