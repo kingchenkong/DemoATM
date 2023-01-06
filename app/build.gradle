@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -30,15 +31,53 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    buildFeatures {
+        viewBinding true
+        dataBinding true
+    }
 }
 
 dependencies {
-
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
+    // test case
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    testImplementation "io.insert-koin:koin-test:$koin_space"
+
+    // Koin
+    implementation "io.insert-koin:koin-android:$koin_space"
+    implementation "io.insert-koin:koin-androidx-scope:$koin_space"
+    implementation "io.insert-koin:koin-androidx-fragment:$koin_space"
+    implementation "io.insert-koin:koin-androidx-viewmodel:$koin_space"
+    implementation "io.insert-koin:koin-androidx-ext:$koin_space"
+
+    // Life cycle
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_ver")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_ver")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_ver")
+
+    // room
+    implementation("androidx.room:room-ktx:$room_ver")
+    implementation("androidx.room:room-runtime:$room_ver")
+    kapt "androidx.room:room-compiler:$room_ver"
+
+    // Network
+    implementation('com.squareup.okhttp3:okhttp:5.0.0-alpha.10')
+    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
+
+    // retrofit
+    implementation("com.squareup.retrofit2:retrofit:$retrofit_ver")
+    implementation("com.squareup.retrofit2:converter-gson:$retrofit_ver")
+
+    // Google
+    implementation('com.google.code.gson:gson:2.9.1')
+
+    // Glide
+    implementation 'com.github.bumptech.glide:glide:4.10.0'
+    kapt 'com.github.bumptech.glide:compiler:4.9.0'
 }
