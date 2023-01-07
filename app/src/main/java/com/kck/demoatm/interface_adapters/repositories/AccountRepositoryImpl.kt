@@ -1,7 +1,7 @@
 package com.kck.demoatm.interface_adapters.repositories
 
-import com.kck.demoatm.ERROR_MSG_REMOTE_NOT_FOUND
-import com.kck.demoatm.SourceType
+import com.kck.demoatm.application.ERROR_MSG_REMOTE_NOT_FOUND
+import com.kck.demoatm.application.SourceType
 import com.kck.demoatm.entities.Account
 import com.kck.demoatm.frameworks_devices.data_source.local.IAccountLocalDataSource
 import org.koin.core.context.GlobalContext

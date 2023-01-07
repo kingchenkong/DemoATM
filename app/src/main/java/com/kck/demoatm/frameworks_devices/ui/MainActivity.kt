@@ -7,12 +7,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.kck.demoatm.*
+import com.kck.demoatm.application.*
 import com.kck.demoatm.databinding.ActivityMainBinding
 import com.kck.demoatm.frameworks_devices.data_source.local.IAccountLocalDataSource
 import com.kck.demoatm.frameworks_devices.database.data_provider.IDatabaseProvider
 import com.kck.demoatm.interface_adapters.presenters.AccountViewModel
 import com.kck.demoatm.interface_adapters.repositories.IAccountRepository
-import com.kck.demoatm.use_cases.TransferUseCase
+import com.kck.demoatm.use_cases.*
 import org.koin.core.context.GlobalContext
 
 class MainActivity : AppCompatActivity() {
@@ -28,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.lifecycleOwner = this
 
-        lifecycleScope.launchWhenCreated { test() }
+        lifecycleScope.launchWhenStarted { test() }
     }
 
     private suspend fun test() {
@@ -66,36 +67,37 @@ class MainActivity : AppCompatActivity() {
         }
 
         // useCase
-//        val loginUseCase: LoginUseCase by GlobalContext.get().inject()
-//        val queryBalanceUseCase: QueryBalanceUseCase by GlobalContext.get().inject()
-//        val withdrawUseCase: WithdrawUseCase by GlobalContext.get().inject()
-//        val depositUseCase: DepositUseCase by GlobalContext.get().inject()
+        val loginUseCase: LoginUseCase by GlobalContext.get().inject()
+        val queryBalanceUseCase: QueryBalanceUseCase by GlobalContext.get().inject()
+        val withdrawUseCase: WithdrawUseCase by GlobalContext.get().inject()
+        val depositUseCase: DepositUseCase by GlobalContext.get().inject()
 
 //        val accDef = depositUseCase.invoke(ACC_SN_DEF, ACC_PWD_DEF, 100)
 //        Log.e(TAG, "test: accDef: $accDef")
-//        val accMock1 = depositUseCase.invoke(MOCK_1_ACC_SN, MOCK_1_ACC_PWD, 100)
-//        Log.e(TAG, "test: accMock1: $accMock1")
-//        val accMock2 = depositUseCase.invoke(MOCK_2_ACC_SN, MOCK_2_ACC_PWD, 100)
-//        Log.e(TAG, "test: accMock2 $accMock2")
-//        val accMock3 = depositUseCase.invoke(MOCK_3_ACC_SN, MOCK_3_ACC_PWD, 100)
-//        Log.e(TAG, "test: accMock3: $accMock3")
+        val accMock1 = depositUseCase.invoke(MOCK_1_ACC_SN, MOCK_1_ACC_PWD, 100)
+        Log.e(TAG, "test: accMock1: $accMock1")
+        val accMock2 = depositUseCase.invoke(MOCK_2_ACC_SN, MOCK_2_ACC_PWD, 100)
+        Log.e(TAG, "test: accMock2 $accMock2")
+        val accMock3 = depositUseCase.invoke(MOCK_3_ACC_SN, MOCK_3_ACC_PWD, 100)
+        Log.e(TAG, "test: accMock3: $accMock3")
+        val accMock4 = depositUseCase.invoke(MOCK_4_ACC_SN, MOCK_4_ACC_PWD, 100)
+        Log.e(TAG, "test: accMock4: $accMock4")
 
         val transferUseCase: TransferUseCase by GlobalContext.get().inject()
 
-        val transferMoney1 = transferUseCase.invoke(
-            ACC_SN_DEF, ACC_PWD_DEF,
-            MOCK_1_ACC_SN, MOCK_1_ACC_PWD,
-            100
-        )
-        Log.e(TAG, "test: accDef: $transferMoney1")
-
-
-        val transferMoney2 = transferUseCase.invoke(
-            MOCK_2_ACC_SN, MOCK_2_ACC_PWD,
-            MOCK_3_ACC_SN, MOCK_3_ACC_PWD,
-            100
-        )
-        Log.e(TAG, "test: accMock2 $transferMoney2")
+//        val transferMoney1 = transferUseCase.invoke(
+//            MOCK_1_ACC_SN, MOCK_1_ACC_PWD,
+//            MOCK_2_ACC_SN, MOCK_2_ACC_PWD,
+//            100
+//        )
+//        Log.e(TAG, "test: accDef: $transferMoney1")
+//
+//        val transferMoney2 = transferUseCase.invoke(
+//            MOCK_3_ACC_SN, MOCK_3_ACC_PWD,
+//            MOCK_4_ACC_SN, MOCK_4_ACC_PWD,
+//            100
+//        )
+//        Log.e(TAG, "test: accMock2 $transferMoney2")
 
         // check
         val checkAllAcc = repository.getAll()

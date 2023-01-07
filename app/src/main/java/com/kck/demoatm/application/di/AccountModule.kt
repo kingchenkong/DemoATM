@@ -1,4 +1,4 @@
-package com.kck.demoatm.di
+package com.kck.demoatm.application.di
 
 import com.kck.demoatm.frameworks_devices.data_source.local.AccountLocalDataSourceImpl
 import com.kck.demoatm.frameworks_devices.data_source.local.IAccountLocalDataSource
@@ -12,7 +12,6 @@ import org.koin.dsl.module
 
 val DataProviderModule = module {
     single { DatabaseProviderImpl(get()) } bind IDatabaseProvider::class
-
 }
 
 val DataSourceModule = module {

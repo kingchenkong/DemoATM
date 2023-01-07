@@ -1,9 +1,9 @@
 package com.kck.demoatm.entities
 
 import android.util.Log
-import com.kck.demoatm.ACC_BALANCE_DEF
-import com.kck.demoatm.ACC_PWD_DEF
-import com.kck.demoatm.ACC_SN_DEF
+import com.kck.demoatm.application.ACC_BALANCE_DEF
+import com.kck.demoatm.application.ACC_PWD_DEF
+import com.kck.demoatm.application.ACC_SN_DEF
 
 class Account(
     val id: Int,

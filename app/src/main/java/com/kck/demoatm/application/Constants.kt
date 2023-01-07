@@ -1,4 +1,4 @@
-package com.kck.demoatm
+package com.kck.demoatm.application
 
 const val ACC_SN_DEF: String = "001-1234-5678"
 const val ACC_PWD_DEF: String = "asdf1234"

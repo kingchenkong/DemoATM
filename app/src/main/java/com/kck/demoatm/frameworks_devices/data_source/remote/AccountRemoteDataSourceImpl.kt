@@ -1,6 +1,6 @@
 package com.kck.demoatm.frameworks_devices.data_source.remote
 
-import com.kck.demoatm.ERROR_MSG_REMOTE_NOT_FOUND
+import com.kck.demoatm.application.ERROR_MSG_REMOTE_NOT_FOUND
 import com.kck.demoatm.entities.Account
 
 class AccountRemoteDataSourceImpl : IAccountRemoteDataSource {

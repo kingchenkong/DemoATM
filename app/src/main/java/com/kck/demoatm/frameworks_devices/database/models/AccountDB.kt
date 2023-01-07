@@ -2,10 +2,10 @@ package com.kck.demoatm.frameworks_devices.database.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.kck.demoatm.ACC_BALANCE_DEF
-import com.kck.demoatm.ACC_DISPLAY_NAME_DEF
-import com.kck.demoatm.ACC_PWD_DEF
-import com.kck.demoatm.ACC_SN_DEF
+import com.kck.demoatm.application.ACC_BALANCE_DEF
+import com.kck.demoatm.application.ACC_DISPLAY_NAME_DEF
+import com.kck.demoatm.application.ACC_PWD_DEF
+import com.kck.demoatm.application.ACC_SN_DEF
 
 const val TABLE_ACCOUNT_NAME = "account"
 

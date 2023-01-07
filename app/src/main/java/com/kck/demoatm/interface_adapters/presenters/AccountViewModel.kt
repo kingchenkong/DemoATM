@@ -9,16 +9,12 @@ class AccountViewModel : ViewModel() {
     private val TAG: String = AccountViewModel::class.java.simpleName
 
 
-    private val getAccountUseCase: GetAccountUseCase by lazy { GetAccountUseCase() }
-
     // livedata
     val accountLiveData = MutableLiveData<Account>()
 
-    fun getDefaultAccount() {
-
-    }
-
-
+//    fun login(sn: String, pwd: String): Result<Account> {
+//
+//    }
 
 
 }

@@ -1,11 +1,11 @@
-package com.kck.demoatm
+package com.kck.demoatm.application
 
 import android.app.Application
 import android.util.Log
-import com.kck.demoatm.di.RepositoryModule
-import com.kck.demoatm.di.DataProviderModule
-import com.kck.demoatm.di.DataSourceModule
-import com.kck.demoatm.di.UseCaseModule
+import com.kck.demoatm.application.di.RepositoryModule
+import com.kck.demoatm.application.di.DataProviderModule
+import com.kck.demoatm.application.di.DataSourceModule
+import com.kck.demoatm.application.di.UseCaseModule
 import com.kck.demoatm.frameworks_devices.database.data_provider.DatabaseProviderImpl
 import com.kck.demoatm.frameworks_devices.database.data_provider.IDatabaseProvider
 import kotlinx.coroutines.GlobalScope

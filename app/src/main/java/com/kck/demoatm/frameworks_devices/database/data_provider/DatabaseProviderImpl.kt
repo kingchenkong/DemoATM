@@ -4,11 +4,10 @@ import android.content.Context
 import android.util.Log
 import androidx.annotation.VisibleForTesting
 import androidx.room.Room
+import com.kck.demoatm.BuildConfig
+import com.kck.demoatm.application.*
 import com.kck.demoatm.frameworks_devices.database.dao.DemoDatabase
 import com.kck.demoatm.frameworks_devices.database.models.AccountDB
-import com.kck.demoatm.getAccountDBMock1
-import com.kck.demoatm.getAccountDBMock2
-import com.kck.demoatm.getAccountDBMock3
 
 class DatabaseProviderImpl(context: Context) : IDatabaseProvider {
     private val TAG: String = DatabaseProviderImpl::class.java.simpleName
@@ -32,13 +31,14 @@ class DatabaseProviderImpl(context: Context) : IDatabaseProvider {
         val allAccount = database.accountDao().getAll()
         Log.e(TAG, "initialize: all Account size: ${allAccount.size}")
         if (allAccount.isEmpty()) {
-            database.accountDao().addAccount(AccountDB.defaultAccountDB)
-            database.accountDao().addAccount(getAccountDBMock1())
-            database.accountDao().addAccount(getAccountDBMock2())
-            database.accountDao().addAccount(getAccountDBMock3())
+            if (needMockData) {
+                database.accountDao().addAccount(getAccountDBMock1())
+                database.accountDao().addAccount(getAccountDBMock2())
+                database.accountDao().addAccount(getAccountDBMock3())
+                database.accountDao().addAccount(getAccountDBMock4())
+            }
             Log.e(TAG, "initialize: execute init db.")
         } else {
-
             Log.e(TAG, "initialize: stop init db.")
         }
     }
