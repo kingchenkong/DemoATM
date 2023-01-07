@@ -1,6 +1,5 @@
 package com.kck.demoatm.interface_adapters.repositories
 
-import com.kck.demoatm.application.ERROR_MSG_LOGIN
 import com.kck.demoatm.application.ERROR_MSG_REMOTE_NOT_FOUND
 import com.kck.demoatm.application.MyApplication
 import com.kck.demoatm.application.SourceType

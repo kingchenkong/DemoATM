@@ -2,10 +2,12 @@ package com.kck.demoatm.application
 
 import android.app.Application
 import android.util.Log
+import com.kck.demoatm.entities.Account
 import com.kck.demoatm.frameworks_devices.data_source.local.AccountLocalDataSourceImpl
 import com.kck.demoatm.frameworks_devices.data_source.local.IAccountLocalDataSource
 import com.kck.demoatm.frameworks_devices.database.data_provider.DatabaseProviderImpl
 import com.kck.demoatm.frameworks_devices.database.data_provider.IDatabaseProvider
+import com.kck.demoatm.frameworks_devices.database.models.AccountDB
 import com.kck.demoatm.interface_adapters.repositories.AccountRepositoryImpl
 import com.kck.demoatm.interface_adapters.repositories.IAccountRepository
 import com.kck.demoatm.use_cases.*
@@ -39,9 +41,9 @@ class MyApplication : Application() {
 
     // for init db table
     private suspend fun initDatabase() {
-//        val allAccount = databaseProvider.getAccount().getAll()
         val allAccount = databaseProvider.getAllAccount()
-        Log.e(TAG, "initialize: all Account size: ${allAccount.size}")
+        displayAccount(allAccount)
+
         if (allAccount.isEmpty()) {
             if (needMockData) {
                 databaseProvider.insertAccount(getAccountDBMock1())
@@ -54,6 +56,17 @@ class MyApplication : Application() {
             Log.e(TAG, "initialize: stop init db.")
         }
     }
+
+    private fun displayAccount(list: List<AccountDB>) {
+        Log.e(TAG, "displayAccount: all Account size: ${list.size}")
+        var count = 0
+        list.forEach {
+            count += 1
+            Log.e(TAG, "displayAccount: $count, account: $it")
+        }
+
+    }
+
 //    fun koinStarter() {
 //        startKoin {
 //            androidLogger(Level.ERROR)

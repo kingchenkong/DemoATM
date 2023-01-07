@@ -29,8 +29,53 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.lifecycleOwner = this
 
-        lifecycleScope.launchWhenResumed { test() }
+        initListener()
+
+        lifecycleScope.launchWhenResumed {
+//            test()
+        }
     }
+
+    private fun initListener() {
+        binding.btnLogin.setOnClickListener {
+            Log.e(TAG, "initListener: btnLogin")
+            accountViewModel.login(
+                binding.editSerial.text.toString(),
+                binding.editPwd.text.toString()
+            )
+        }
+
+        binding.btnMock1.setOnClickListener {
+            Log.e(TAG, "initListener: btnMock1")
+            accountViewModel.login(
+                MOCK_1_ACC_SN,
+                MOCK_1_ACC_PWD
+            )
+        }
+        binding.btnMock2.setOnClickListener {
+            Log.e(TAG, "initListener: btnMock2")
+            accountViewModel.login(
+                MOCK_2_ACC_SN,
+                MOCK_2_ACC_PWD
+            )
+        }
+        binding.btnMock3.setOnClickListener {
+            Log.e(TAG, "initListener: btnMock3")
+            accountViewModel.login(
+                MOCK_3_ACC_SN,
+                MOCK_3_ACC_PWD
+            )
+        }
+        binding.btnMock4.setOnClickListener {
+            Log.e(TAG, "initListener: btnMock4")
+            accountViewModel.login(
+                MOCK_4_ACC_SN,
+                MOCK_4_ACC_PWD
+            )
+        }
+
+    }
+
 
     private suspend fun test() {
 //        val accountRepository = AccountRepositoryImpl(
