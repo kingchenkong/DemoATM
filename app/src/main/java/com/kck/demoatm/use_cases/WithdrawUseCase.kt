@@ -24,12 +24,11 @@ class WithdrawUseCase {
             }
 
         // 2. Account can withdraw? (check login's entity)
+        // 3. Account withdraw. (calculate balance - login's entity)
         val canWithdraw: Boolean = account.withdraw(money)
         if (!canWithdraw) {
             return Result.failure(Throwable(ERROR_MSG_BALANCE))
         }
-
-        // 3. Account withdraw. (calculate balance - login's entity)
 
         // 4. generate AccountDB to update db.
         val updateSuccess =
