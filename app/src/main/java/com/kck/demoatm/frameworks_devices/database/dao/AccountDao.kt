@@ -16,7 +16,7 @@ interface AccountDao {
     suspend fun getAccount(
         serialNumber: String,
         password: String,
-    ): AccountDB
+    ): AccountDB?
 
     @Query("SELECT * FROM account WHERE serialNumber == :serialNumber AND password == :password")
     suspend fun login(

@@ -1,15 +1,14 @@
 package com.kck.demoatm.use_cases
 
 import com.kck.demoatm.application.ERROR_MSG_BALANCE
-import com.kck.demoatm.application.ERROR_MSG_LOGIN
 import com.kck.demoatm.application.ERROR_MSG_UPDATE
+import com.kck.demoatm.application.MyApplication
 import com.kck.demoatm.application.SourceType
 import com.kck.demoatm.entities.Account
 import com.kck.demoatm.interface_adapters.repositories.IAccountRepository
-import org.koin.core.context.GlobalContext
 
 class TransferUseCase {
-    private val repository: IAccountRepository by GlobalContext.get().inject()
+    private val repository: IAccountRepository = MyApplication().repository
 
     suspend fun invoke(
         sourceSN: String, sourcePWD: String,
@@ -31,7 +30,7 @@ class TransferUseCase {
         // 1. login source Account
         val sourceAcc: Account =
             repository.login(SourceType.LOCAL, sn, pwd).getOrElse {
-                return Result.failure(Throwable(ERROR_MSG_LOGIN))
+                return Result.failure(it)
             }
         // 2. Account can withdraw? (check login's entity)
         // 3. Account withdraw. (calculate balance - login's entity)
@@ -58,7 +57,7 @@ class TransferUseCase {
         // 1. login destination Account
         val destAcc: Account =
             repository.login(SourceType.LOCAL, sn, pwd).getOrElse {
-                return Result.failure(Throwable(ERROR_MSG_LOGIN))
+                return Result.failure(it)
             }
         // 2. deposit
         destAcc.deposit(money)

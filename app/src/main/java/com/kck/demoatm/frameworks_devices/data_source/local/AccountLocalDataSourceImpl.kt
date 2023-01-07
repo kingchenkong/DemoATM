@@ -1,16 +1,17 @@
 package com.kck.demoatm.frameworks_devices.data_source.local
 
-import android.util.Log
+import com.kck.demoatm.application.ERROR_MSG_LOGIN
+import com.kck.demoatm.application.MyApplication
 import com.kck.demoatm.entities.Account
 import com.kck.demoatm.frameworks_devices.database.data_provider.IDatabaseProvider
+import com.kck.demoatm.frameworks_devices.database.models.AccountDB
 import com.kck.demoatm.interface_adapters.mappers.toEntity
-import org.koin.core.context.GlobalContext
 
 class AccountLocalDataSourceImpl : IAccountLocalDataSource {
-    private val dataProvider: IDatabaseProvider by GlobalContext.get().inject()
+    private val databaseProvider: IDatabaseProvider = MyApplication().databaseProvider
 
     override suspend fun getAllAccount(): List<Account> {
-        dataProvider.getAllAccount().let {
+        databaseProvider.getAllAccount().let {
             val list: MutableList<Account> = mutableListOf()
             it.forEach { accountDB ->
                 list.add(accountDB.toEntity())
@@ -19,27 +20,28 @@ class AccountLocalDataSourceImpl : IAccountLocalDataSource {
         }
     }
 
-    override suspend fun getAccount(
-        serialNumber: String,
-        password: String
-    ): Result<Account> = dataProvider.getAccount(serialNumber, password).let {
-        Log.e("AccountLocalDataSourceImpl", "getAccount: accountDB: $it")
-        Result.success(it.toEntity())
-    }
-
     override suspend fun login(
         serialNumber: String,
         password: String
-    ): Result<Account> =
-        dataProvider.login(serialNumber, password).let {
-            Log.e("AccountLocalDataSourceImpl", "login: accountDB: $it")
-            Result.success(it.toEntity())
+    ): Result<Account> {
+        val account = databaseProvider.getAccount(serialNumber, password)
+        return if (account == null) {
+            Result.failure(Throwable(ERROR_MSG_LOGIN))
+        } else {
+            Result.success(account.toEntity())
         }
+    }
+
+    override suspend fun insertAccount(account: Account) {
+        val accountDB = AccountDB.constructByAccount(account)
+        databaseProvider.insertAccount(accountDB)
+    }
 
     override suspend fun updateAccount(
         serialNumber: String,
         password: String,
         balance: Int
-    ): Result<Boolean> = Result.success(dataProvider.updateAccount(serialNumber, password, balance))
+    ): Boolean =
+        databaseProvider.updateAccount(serialNumber, password, balance)
 
 }

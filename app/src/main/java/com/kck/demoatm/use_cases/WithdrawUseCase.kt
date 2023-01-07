@@ -1,16 +1,14 @@
 package com.kck.demoatm.use_cases
 
-import android.util.Log
 import com.kck.demoatm.application.ERROR_MSG_BALANCE
-import com.kck.demoatm.application.ERROR_MSG_LOGIN
 import com.kck.demoatm.application.ERROR_MSG_UPDATE
+import com.kck.demoatm.application.MyApplication
 import com.kck.demoatm.application.SourceType
 import com.kck.demoatm.entities.Account
 import com.kck.demoatm.interface_adapters.repositories.IAccountRepository
-import org.koin.core.context.GlobalContext
 
 class WithdrawUseCase {
-    private val repository: IAccountRepository by GlobalContext.get().inject()
+    private val repository: IAccountRepository = MyApplication().repository
 
     suspend fun invoke(
         serialNumber: String,
@@ -20,7 +18,7 @@ class WithdrawUseCase {
         // 1. login (get entity)
         val account: Account =
             repository.login(SourceType.LOCAL, serialNumber, password).getOrElse {
-                return Result.failure(Throwable(ERROR_MSG_LOGIN))
+                return Result.failure(it)
             }
 
         // 2. Account can withdraw? (check login's entity)

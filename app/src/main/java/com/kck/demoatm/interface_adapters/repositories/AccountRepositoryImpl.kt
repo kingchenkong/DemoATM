@@ -1,29 +1,17 @@
 package com.kck.demoatm.interface_adapters.repositories
 
+import com.kck.demoatm.application.ERROR_MSG_LOGIN
 import com.kck.demoatm.application.ERROR_MSG_REMOTE_NOT_FOUND
+import com.kck.demoatm.application.MyApplication
 import com.kck.demoatm.application.SourceType
 import com.kck.demoatm.entities.Account
 import com.kck.demoatm.frameworks_devices.data_source.local.IAccountLocalDataSource
-import org.koin.core.context.GlobalContext
 
 class AccountRepositoryImpl : IAccountRepository {
-    private val localDataSource: IAccountLocalDataSource by GlobalContext.get().inject()
+    private val localDataSource: IAccountLocalDataSource = MyApplication().localDataSource
 
     override suspend fun getAll(): List<Account> {
         return localDataSource.getAllAccount()
-    }
-
-    override suspend fun getAccount(
-        sourceType: SourceType,
-        serialNumber: String,
-        password: String
-    ): Account {
-        return if (sourceType == SourceType.LOCAL) {
-            localDataSource.getAccount(serialNumber, password)
-                .getOrDefault(Account.defaultAccount)
-        } else {
-            Account.defaultAccount
-        }
     }
 
     override suspend fun login(
@@ -45,7 +33,7 @@ class AccountRepositoryImpl : IAccountRepository {
         balance: Int
     ): Boolean { // update accountDB by appoint account entity
         return if (sourceType == SourceType.LOCAL) {
-            localDataSource.updateAccount(serialNumber, password, balance).getOrElse { false }
+            localDataSource.updateAccount(serialNumber, password, balance)
         } else {
             false
         }

@@ -2,39 +2,70 @@ package com.kck.demoatm.application
 
 import android.app.Application
 import android.util.Log
-import com.kck.demoatm.application.di.RepositoryModule
-import com.kck.demoatm.application.di.DataProviderModule
-import com.kck.demoatm.application.di.DataSourceModule
-import com.kck.demoatm.application.di.UseCaseModule
+import com.kck.demoatm.frameworks_devices.data_source.local.AccountLocalDataSourceImpl
+import com.kck.demoatm.frameworks_devices.data_source.local.IAccountLocalDataSource
 import com.kck.demoatm.frameworks_devices.database.data_provider.DatabaseProviderImpl
 import com.kck.demoatm.frameworks_devices.database.data_provider.IDatabaseProvider
+import com.kck.demoatm.interface_adapters.repositories.AccountRepositoryImpl
+import com.kck.demoatm.interface_adapters.repositories.IAccountRepository
+import com.kck.demoatm.use_cases.*
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import org.koin.android.ext.koin.androidContext
-import org.koin.android.ext.koin.androidLogger
-import org.koin.core.context.startKoin
-import org.koin.core.logger.Level
 
 class MyApplication : Application() {
+    private val TAG: String = MyApplication::class.java.simpleName
+
+    val databaseProvider: IDatabaseProvider by lazy { DatabaseProviderImpl(this@MyApplication) }
+    val localDataSource: IAccountLocalDataSource by lazy { AccountLocalDataSourceImpl() }
+    val repository: IAccountRepository by lazy { AccountRepositoryImpl() }
+
+    // UseCases
+    val depositUseCase: DepositUseCase by lazy { DepositUseCase() }
+    val getAccountUseCase: GetAccountUseCase by lazy { GetAccountUseCase() }
+    val loginUseCase: LoginUseCase by lazy { LoginUseCase() }
+    val queryBalanceUseCase: QueryBalanceUseCase by lazy { QueryBalanceUseCase() }
+    val transferUseCase: TransferUseCase by lazy { TransferUseCase() }
+    val withdrawUseCase: WithdrawUseCase by lazy { WithdrawUseCase() }
+
+    @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate() {
         super.onCreate()
         Log.e("MyApplication", "onCreate: ")
-        startKoin {
-            androidLogger(Level.ERROR)
-            androidContext(this@MyApplication)
-
-            modules(
-                DataProviderModule,
-                DataSourceModule,
-                RepositoryModule,
-                UseCaseModule,
-            )
-        }
-
         GlobalScope.launch {
-            // db init
-            val db: IDatabaseProvider = DatabaseProviderImpl(this@MyApplication)
-            db.initialize()
+            initDatabase()
         }
     }
+
+    // for init db table
+    private suspend fun initDatabase() {
+//        val allAccount = databaseProvider.getAccount().getAll()
+        val allAccount = databaseProvider.getAllAccount()
+        Log.e(TAG, "initialize: all Account size: ${allAccount.size}")
+        if (allAccount.isEmpty()) {
+            if (needMockData) {
+                databaseProvider.insertAccount(getAccountDBMock1())
+                databaseProvider.insertAccount(getAccountDBMock2())
+                databaseProvider.insertAccount(getAccountDBMock3())
+                databaseProvider.insertAccount(getAccountDBMock4())
+            }
+            Log.e(TAG, "initialize: execute init db.")
+        } else {
+            Log.e(TAG, "initialize: stop init db.")
+        }
+    }
+//    fun koinStarter() {
+//        startKoin {
+//            androidLogger(Level.ERROR)
+//            androidContext(this@MyApplication)
+//
+//            modules(
+//                DataProviderModule,
+//                DataSourceModule,
+//                RepositoryModule,
+//                UseCaseModule,
+//            )
+//        }
+//    }
+
 }
