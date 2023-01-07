@@ -39,7 +39,7 @@ class AccountLocalDataSourceImpl : IAccountLocalDataSource {
     override suspend fun updateAccount(
         serialNumber: String,
         password: String,
-        account: Account
-    ): Result<Boolean> = Result.success(dataProvider.updateAccount(serialNumber, password, account))
+        balance: Int
+    ): Result<Boolean> = Result.success(dataProvider.updateAccount(serialNumber, password, balance))
 
 }

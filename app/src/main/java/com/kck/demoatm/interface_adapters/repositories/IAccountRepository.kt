@@ -21,6 +21,6 @@ interface IAccountRepository {
         sourceType: SourceType,
         serialNumber: String,
         password: String,
-        account: Account
+        balance: Int
     ): Boolean
 }

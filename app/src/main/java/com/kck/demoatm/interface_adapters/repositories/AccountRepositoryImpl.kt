@@ -42,10 +42,10 @@ class AccountRepositoryImpl : IAccountRepository {
         sourceType: SourceType,
         serialNumber: String,
         password: String,
-        account: Account
+        balance: Int
     ): Boolean { // update accountDB by appoint account entity
         return if (sourceType == SourceType.LOCAL) {
-            localDataSource.updateAccount(serialNumber, password, account).getOrElse { false }
+            localDataSource.updateAccount(serialNumber, password, balance).getOrElse { false }
         } else {
             false
         }

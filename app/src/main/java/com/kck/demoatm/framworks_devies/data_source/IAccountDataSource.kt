@@ -16,6 +16,6 @@ interface IAccountDataSource {
     suspend fun updateAccount(
         serialNumber: String,
         password: String,
-        account: Account
+        balance: Int
     ): Result<Boolean>
 }

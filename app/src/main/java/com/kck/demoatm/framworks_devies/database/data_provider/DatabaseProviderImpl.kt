@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.Log
 import androidx.annotation.VisibleForTesting
 import androidx.room.Room
-import com.kck.demoatm.entities.Account
 import com.kck.demoatm.framworks_devies.database.dao.DemoDatabase
 import com.kck.demoatm.framworks_devies.database.models.AccountDB
 import com.kck.demoatm.getAccountDBMock1
@@ -67,14 +66,14 @@ class DatabaseProviderImpl(context: Context) : IDatabaseProvider {
     override suspend fun updateAccount(
         serialNumber: String,
         password: String,
-        account: Account
+        balance: Int
     ): Boolean {
-        if (account.balance <= 0) {
+        if (balance <= 0) {
             Log.e(TAG, "updateAccount: Error: account.balance <= 0")
             return false
         }
         val accDB = database.accountDao().getAccount(serialNumber, password)
-        accDB.balance = account.balance
+        accDB.balance = balance
         database.accountDao().updateAccount(accDB)
         Log.d(TAG, "updateAccount: [after Update] accDB: $accDB")
 

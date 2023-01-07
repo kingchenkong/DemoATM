@@ -12,6 +12,7 @@ import com.kck.demoatm.framworks_devies.data_source.local.IAccountLocalDataSourc
 import com.kck.demoatm.framworks_devies.database.data_provider.IDatabaseProvider
 import com.kck.demoatm.interface_adapters.presenters.AccountViewModel
 import com.kck.demoatm.interface_adapters.repositories.IAccountRepository
+import com.kck.demoatm.use_cases.DepositUseCase
 import com.kck.demoatm.use_cases.WithdrawUseCase
 import org.koin.core.context.GlobalContext
 
@@ -68,15 +69,16 @@ class MainActivity : AppCompatActivity() {
         // useCase
 //        val loginUseCase: LoginUseCase by GlobalContext.get().inject()
 //        val queryBalanceUseCase: QueryBalanceUseCase by GlobalContext.get().inject()
-        val withdrawUseCase: WithdrawUseCase by GlobalContext.get().inject()
+//        val withdrawUseCase: WithdrawUseCase by GlobalContext.get().inject()
+        val depositUseCase: DepositUseCase by GlobalContext.get().inject()
 
-        val accDef = withdrawUseCase.invoke(ACC_SN_DEF, ACC_PWD_DEF, 10)
+        val accDef = depositUseCase.invoke(ACC_SN_DEF, ACC_PWD_DEF, 100)
         Log.e(TAG, "test: accDef: $accDef")
-        val accMock1 = withdrawUseCase.invoke(MOCK_1_ACC_SN, MOCK_1_ACC_PWD, 10)
+        val accMock1 = depositUseCase.invoke(MOCK_1_ACC_SN, MOCK_1_ACC_PWD, 100)
         Log.e(TAG, "test: accMock1: $accMock1")
-        val accMock2 = withdrawUseCase.invoke(MOCK_2_ACC_SN, MOCK_2_ACC_PWD, 10)
+        val accMock2 = depositUseCase.invoke(MOCK_2_ACC_SN, MOCK_2_ACC_PWD, 100)
         Log.e(TAG, "test: accMock2 $accMock2")
-        val accMock3 = withdrawUseCase.invoke(MOCK_3_ACC_SN, MOCK_3_ACC_PWD, 10)
+        val accMock3 = depositUseCase.invoke(MOCK_3_ACC_SN, MOCK_3_ACC_PWD, 100)
         Log.e(TAG, "test: accMock3: $accMock3")
 
     }

@@ -15,6 +15,6 @@ class AccountRemoteDataSourceImpl : IAccountRemoteDataSource {
     override suspend fun updateAccount(
         serialNumber: String,
         password: String,
-        account: Account
+        balance: Int
     ): Result<Boolean> = Result.failure(Throwable(ERROR_MSG_REMOTE_NOT_FOUND))
 }

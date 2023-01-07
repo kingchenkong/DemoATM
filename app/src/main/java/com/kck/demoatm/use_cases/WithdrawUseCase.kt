@@ -30,16 +30,20 @@ class WithdrawUseCase {
         }
 
         // 3. Account withdraw. (calculate balance - login's entity)
-        // is -> account
 
         // 4. generate AccountDB to update db.
-        // 5. success - get money to present Ui.
         val updateSuccess =
-            repository.updateAccount(SourceType.LOCAL, serialNumber, password, account)
+            repository.updateAccount(
+                SourceType.LOCAL,
+                serialNumber,
+                password,
+                account.queryBalance()
+            )
         return if (updateSuccess) {
             Result.success(money)
         } else {
             Result.failure(Throwable(ERROR_MSG_UPDATE))
         }
+        // 5. success - get money to present Ui.
     }
 }

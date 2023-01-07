@@ -10,7 +10,7 @@ class Account(
     val serialNumber: String,
     val password: String,
     // variable
-    var balance: Int,
+    private var balance: Int,
 ) {
     companion object {
         enum class Action { WITHDRAW, DEPOSIT }
@@ -43,6 +43,10 @@ class Account(
             Action.DEPOSIT -> balance += money
         }
         Log.e("Account", "calculateBalance: money: $money, balance $balance")
+    }
+
+    fun queryBalance(): Int {
+        return balance
     }
 
     fun withdraw(money: Int): Boolean {
