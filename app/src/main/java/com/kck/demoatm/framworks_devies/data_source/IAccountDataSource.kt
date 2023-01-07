@@ -12,4 +12,10 @@ interface IAccountDataSource {
         serialNumber: String,
         password: String,
     ): Result<Account>
+
+    suspend fun updateAccount(
+        serialNumber: String,
+        password: String,
+        account: Account
+    ): Result<Boolean>
 }

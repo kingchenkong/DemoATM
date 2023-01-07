@@ -4,14 +4,15 @@ import android.content.Context
 import android.util.Log
 import androidx.annotation.VisibleForTesting
 import androidx.room.Room
+import com.kck.demoatm.entities.Account
 import com.kck.demoatm.framworks_devies.database.dao.DemoDatabase
 import com.kck.demoatm.framworks_devies.database.models.AccountDB
 import com.kck.demoatm.getAccountDBMock1
 import com.kck.demoatm.getAccountDBMock2
 import com.kck.demoatm.getAccountDBMock3
-import org.koin.core.context.GlobalContext
 
 class DatabaseProviderImpl(context: Context) : IDatabaseProvider {
+    private val TAG: String = DatabaseProviderImpl::class.java.simpleName
 
     private val database: DemoDatabase by lazy { buildDataBase(context) }
 
@@ -30,16 +31,16 @@ class DatabaseProviderImpl(context: Context) : IDatabaseProvider {
     // for init db table
     override suspend fun initialize() {
         val allAccount = database.accountDao().getAll()
-        Log.e("DatabaseProviderImpl", "initialize: all Account size: ${allAccount.size}")
+        Log.e(TAG, "initialize: all Account size: ${allAccount.size}")
         if (allAccount.isEmpty()) {
             database.accountDao().addAccount(AccountDB.defaultAccountDB)
             database.accountDao().addAccount(getAccountDBMock1())
             database.accountDao().addAccount(getAccountDBMock2())
             database.accountDao().addAccount(getAccountDBMock3())
-            Log.e("DatabaseProviderImpl", "initialize: execute init db.")
+            Log.e(TAG, "initialize: execute init db.")
         } else {
 
-            Log.e("DatabaseProviderImpl", "initialize: stop init db.")
+            Log.e(TAG, "initialize: stop init db.")
         }
     }
 
@@ -62,6 +63,26 @@ class DatabaseProviderImpl(context: Context) : IDatabaseProvider {
             serialNumber = serialNumber,
             password = password
         )
+
+    override suspend fun updateAccount(
+        serialNumber: String,
+        password: String,
+        account: Account
+    ): Boolean {
+        if (account.balance <= 0) {
+            Log.e(TAG, "updateAccount: Error: account.balance <= 0")
+            return false
+        }
+        val accDB = database.accountDao().getAccount(serialNumber, password)
+        accDB.balance = account.balance
+        database.accountDao().updateAccount(accDB)
+        Log.d(TAG, "updateAccount: [after Update] accDB: $accDB")
+
+        val testAccountDB = database.accountDao().getAccount(serialNumber, password)
+        Log.d(TAG, "updateAccount: [last test] accDB: $testAccountDB")
+
+        return true
+    }
 
 
 }

@@ -36,4 +36,10 @@ class AccountLocalDataSourceImpl : IAccountLocalDataSource {
             Result.success(it.toEntity())
         }
 
+    override suspend fun updateAccount(
+        serialNumber: String,
+        password: String,
+        account: Account
+    ): Result<Boolean> = Result.success(dataProvider.updateAccount(serialNumber, password, account))
+
 }

@@ -16,4 +16,11 @@ interface IAccountRepository {
         serialNumber: String,
         password: String
     ): Result<Account>
+
+    suspend fun updateAccount(
+        sourceType: SourceType,
+        serialNumber: String,
+        password: String,
+        account: Account
+    ): Boolean
 }

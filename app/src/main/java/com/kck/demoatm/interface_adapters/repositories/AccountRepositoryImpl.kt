@@ -1,5 +1,6 @@
 package com.kck.demoatm.interface_adapters.repositories
 
+import com.kck.demoatm.ERROR_MSG_REMOTE_NOT_FOUND
 import com.kck.demoatm.SourceType
 import com.kck.demoatm.entities.Account
 import com.kck.demoatm.framworks_devies.data_source.local.IAccountLocalDataSource
@@ -33,7 +34,20 @@ class AccountRepositoryImpl : IAccountRepository {
         return if (sourceType == SourceType.LOCAL) {
             localDataSource.login(serialNumber, password)
         } else {
-            Result.failure(Throwable())
+            Result.failure(Throwable(ERROR_MSG_REMOTE_NOT_FOUND))
+        }
+    }
+
+    override suspend fun updateAccount(
+        sourceType: SourceType,
+        serialNumber: String,
+        password: String,
+        account: Account
+    ): Boolean { // update accountDB by appoint account entity
+        return if (sourceType == SourceType.LOCAL) {
+            localDataSource.updateAccount(serialNumber, password, account).getOrElse { false }
+        } else {
+            false
         }
     }
 }

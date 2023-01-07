@@ -1,5 +1,6 @@
 package com.kck.demoatm.entities
 
+import android.util.Log
 import com.kck.demoatm.ACC_BALANCE_DEF
 import com.kck.demoatm.ACC_PWD_DEF
 import com.kck.demoatm.ACC_SN_DEF
@@ -8,7 +9,8 @@ class Account(
     val id: Int,
     val serialNumber: String,
     val password: String,
-    val balance: Int,
+    // variable
+    var balance: Int,
 ) {
     companion object {
         enum class Action { WITHDRAW, DEPOSIT }
@@ -26,18 +28,21 @@ class Account(
     }
 
     private fun canWithdraw(money: Int): Boolean {
-        return when {
+        val bool = when {
             balance == 0 -> false
             balance < money -> false
             else -> true
         }
+        Log.d("Account", "canWithdraw: $bool")
+        return bool
     }
 
     private fun calculateBalance(money: Int, action: Action) {
         when (action) {
-            Action.WITHDRAW -> balance - money
-            Action.DEPOSIT -> balance + money
+            Action.WITHDRAW -> balance -= money
+            Action.DEPOSIT -> balance += money
         }
+        Log.e("Account", "calculateBalance: money: $money, balance $balance")
     }
 
     fun withdraw(money: Int): Boolean {

@@ -17,7 +17,7 @@ data class AccountDB(
     val id: Int,
     val serialNumber: String,
     val password: String,
-    val balance: Int,
+    var balance: Int,
 
     val displayName: String,
     val creditCardId: Int, // 信用卡 ID
