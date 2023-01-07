@@ -1,4 +1,4 @@
-package com.kck.demoatm.framworks_devies.ui
+package com.kck.demoatm.frameworks_devices.ui
 
 import android.os.Bundle
 import android.util.Log
@@ -8,8 +8,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.kck.demoatm.*
 import com.kck.demoatm.databinding.ActivityMainBinding
-import com.kck.demoatm.framworks_devies.data_source.local.IAccountLocalDataSource
-import com.kck.demoatm.framworks_devies.database.data_provider.IDatabaseProvider
+import com.kck.demoatm.frameworks_devices.data_source.local.IAccountLocalDataSource
+import com.kck.demoatm.frameworks_devices.database.data_provider.IDatabaseProvider
 import com.kck.demoatm.interface_adapters.presenters.AccountViewModel
 import com.kck.demoatm.interface_adapters.repositories.IAccountRepository
 import com.kck.demoatm.use_cases.TransferUseCase

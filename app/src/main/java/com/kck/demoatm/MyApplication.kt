@@ -6,8 +6,8 @@ import com.kck.demoatm.di.RepositoryModule
 import com.kck.demoatm.di.DataProviderModule
 import com.kck.demoatm.di.DataSourceModule
 import com.kck.demoatm.di.UseCaseModule
-import com.kck.demoatm.framworks_devies.database.data_provider.DatabaseProviderImpl
-import com.kck.demoatm.framworks_devies.database.data_provider.IDatabaseProvider
+import com.kck.demoatm.frameworks_devices.database.data_provider.DatabaseProviderImpl
+import com.kck.demoatm.frameworks_devices.database.data_provider.IDatabaseProvider
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.koin.android.ext.koin.androidContext

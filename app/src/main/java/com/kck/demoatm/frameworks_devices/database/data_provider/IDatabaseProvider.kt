@@ -1,6 +1,6 @@
-package com.kck.demoatm.framworks_devies.database.data_provider
+package com.kck.demoatm.frameworks_devices.database.data_provider
 
-import com.kck.demoatm.framworks_devies.database.models.AccountDB
+import com.kck.demoatm.frameworks_devices.database.models.AccountDB
 
 interface IDatabaseProvider {
     suspend fun initialize()

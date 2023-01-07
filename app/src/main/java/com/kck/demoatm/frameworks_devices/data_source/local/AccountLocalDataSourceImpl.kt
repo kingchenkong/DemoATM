@@ -1,8 +1,8 @@
-package com.kck.demoatm.framworks_devies.data_source.local
+package com.kck.demoatm.frameworks_devices.data_source.local
 
 import android.util.Log
 import com.kck.demoatm.entities.Account
-import com.kck.demoatm.framworks_devies.database.data_provider.IDatabaseProvider
+import com.kck.demoatm.frameworks_devices.database.data_provider.IDatabaseProvider
 import com.kck.demoatm.interface_adapters.mappers.toEntity
 import org.koin.core.context.GlobalContext
 

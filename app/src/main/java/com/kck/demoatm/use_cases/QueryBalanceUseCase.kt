@@ -14,6 +14,6 @@ class QueryBalanceUseCase {
     ): Int {
         val account = repository.login(SourceType.LOCAL, serialNumber, password)
             .getOrElse { Account.defaultAccount }
-        return account.balance
+        return account.queryBalance()
     }
 }

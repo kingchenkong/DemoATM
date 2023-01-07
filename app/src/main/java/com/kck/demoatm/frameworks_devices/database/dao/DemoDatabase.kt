@@ -1,8 +1,8 @@
-package com.kck.demoatm.framworks_devies.database.dao
+package com.kck.demoatm.frameworks_devices.database.dao
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.kck.demoatm.framworks_devies.database.models.AccountDB
+import com.kck.demoatm.frameworks_devices.database.models.AccountDB
 
 @Database(
     entities = [

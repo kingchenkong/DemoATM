@@ -1,7 +1,7 @@
-package com.kck.demoatm.framworks_devies.data_source.local
+package com.kck.demoatm.frameworks_devices.data_source.local
 
 import com.kck.demoatm.entities.Account
-import com.kck.demoatm.framworks_devies.data_source.IAccountDataSource
+import com.kck.demoatm.frameworks_devices.data_source.IAccountDataSource
 
 interface IAccountLocalDataSource : IAccountDataSource {
     suspend fun getAllAccount(): List<Account>

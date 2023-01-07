@@ -1,4 +1,4 @@
-package com.kck.demoatm.framworks_devies.data_source.remote
+package com.kck.demoatm.frameworks_devices.data_source.remote
 
 import com.kck.demoatm.ERROR_MSG_REMOTE_NOT_FOUND
 import com.kck.demoatm.entities.Account

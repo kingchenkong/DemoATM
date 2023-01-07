@@ -1,4 +1,4 @@
-package com.kck.demoatm.framworks_devies.database.models
+package com.kck.demoatm.frameworks_devices.database.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

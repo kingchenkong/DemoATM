@@ -1,6 +1,6 @@
 package com.kck.demoatm
 
-import com.kck.demoatm.framworks_devies.database.models.AccountDB
+import com.kck.demoatm.frameworks_devices.database.models.AccountDB
 
 // MOCK 1
 const val MOCK_1_ACC_SN = "001-9876-5432"

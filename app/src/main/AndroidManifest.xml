@@ -16,7 +16,7 @@
         android:theme="@style/Theme.DemoATM"
         tools:targetApi="31">
         <activity
-            android:name=".framworks_devies.ui.MainActivity"
+            android:name=".frameworks_devices.ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

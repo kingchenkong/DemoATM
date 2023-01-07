@@ -1,11 +1,11 @@
-package com.kck.demoatm.framworks_devies.database.data_provider
+package com.kck.demoatm.frameworks_devices.database.data_provider
 
 import android.content.Context
 import android.util.Log
 import androidx.annotation.VisibleForTesting
 import androidx.room.Room
-import com.kck.demoatm.framworks_devies.database.dao.DemoDatabase
-import com.kck.demoatm.framworks_devies.database.models.AccountDB
+import com.kck.demoatm.frameworks_devices.database.dao.DemoDatabase
+import com.kck.demoatm.frameworks_devices.database.models.AccountDB
 import com.kck.demoatm.getAccountDBMock1
 import com.kck.demoatm.getAccountDBMock2
 import com.kck.demoatm.getAccountDBMock3

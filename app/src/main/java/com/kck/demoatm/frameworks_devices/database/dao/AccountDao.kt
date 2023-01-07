@@ -1,10 +1,10 @@
-package com.kck.demoatm.framworks_devies.database.dao
+package com.kck.demoatm.frameworks_devices.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import com.kck.demoatm.framworks_devies.database.models.AccountDB
+import com.kck.demoatm.frameworks_devices.database.models.AccountDB
 
 @Dao
 interface AccountDao {
