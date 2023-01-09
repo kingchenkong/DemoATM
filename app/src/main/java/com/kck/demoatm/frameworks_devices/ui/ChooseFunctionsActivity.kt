@@ -86,10 +86,6 @@ class ChooseFunctionsActivity : AppCompatActivity() {
             intentToDeposit(presenter.nowAccount.serialNumber)
         }
 
-//        binding.btnQuery.setOnClickListener {
-//            loginPresenter.queryBalance(loginPresenter.nowAccount)
-//        }
-
         binding.btnTransferPage.setOnClickListener {
             intentToTransfer(presenter.nowAccount.serialNumber)
         }

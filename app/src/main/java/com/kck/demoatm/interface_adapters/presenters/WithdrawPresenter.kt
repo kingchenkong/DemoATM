@@ -83,7 +83,6 @@ class WithdrawPresenter : ViewModel() {
                 .onFailure {
                     Log.e(TAG, "withdraw: textMessage: $textMessage")
                     messageLiveData.postValue(it.message)
-//                        textMessage = it.message ?: "throwable no message"
                 }
         }
     }

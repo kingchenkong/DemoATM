@@ -112,7 +112,6 @@ class TransferActivity : AppCompatActivity() {
     private fun processIntent() {
         intent.getBundleExtra("bundle")?.let { bundle ->
             val sn: String = bundle.getString("sn") ?: ""
-//            val pwd = bundle.getString("pwd") ?: ""
             Log.e(TAG, "processIntent: sn: $sn")
 
             transferPresenter.getAccount(sn)
