@@ -157,19 +157,19 @@ class OnBoardingActivity : AppCompatActivity() {
 
         val transferUseCase: TransferUseCase = myApp.transferUseCase
 
-        val transferMoney1 = transferUseCase.invoke(
-            MOCK_1_ACC_SN, MOCK_1_ACC_PWD,
-            MOCK_2_ACC_SN, MOCK_2_ACC_PWD,
+        val transferAccount1 = transferUseCase.invoke(
+            MOCK_1_ACC_SN,
+            MOCK_2_ACC_SN,
             100
         )
-        Log.e(TAG, "test: accDef: $transferMoney1")
+        Log.e(TAG, "test: transferAccount1: $transferAccount1")
 
-        val transferMoney2 = transferUseCase.invoke(
-            MOCK_3_ACC_SN, MOCK_3_ACC_PWD,
-            MOCK_4_ACC_SN, MOCK_4_ACC_PWD,
+        val transferAccount2 = transferUseCase.invoke(
+            MOCK_3_ACC_SN,
+            MOCK_4_ACC_SN,
             100
         )
-        Log.e(TAG, "test: accMock2 $transferMoney2")
+        Log.e(TAG, "test: transferAccount2: $transferAccount2")
 
         // check
         val checkAllAcc = repository.getAll()

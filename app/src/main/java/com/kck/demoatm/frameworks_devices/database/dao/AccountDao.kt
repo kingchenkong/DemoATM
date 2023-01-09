@@ -12,17 +12,16 @@ interface AccountDao {
     @Query("SELECT * FROM account")
     suspend fun getAll(): List<AccountDB>
 
-    @Query("SELECT * FROM account WHERE serialNumber == :serialNumber AND password == :password")
+    @Query("SELECT * FROM account WHERE serialNumber == :serialNumber")
     suspend fun getAccount(
         serialNumber: String,
-        password: String,
     ): AccountDB?
 
     @Query("SELECT * FROM account WHERE serialNumber == :serialNumber AND password == :password")
     suspend fun login(
         serialNumber: String,
         password: String,
-    ): AccountDB
+    ): AccountDB?
 
     @Query("SELECT * FROM account WHERE id = :id")
     suspend fun getAccountById(

@@ -16,7 +16,8 @@ class AccountViewModel : ViewModel() {
     private val queryBalanceUseCase: QueryBalanceUseCase by lazy { MyApplication().queryBalanceUseCase }
     private val withdrawUseCase: WithdrawUseCase by lazy { MyApplication().withdrawUseCase }
     private val depositUseCase: DepositUseCase by lazy { MyApplication().depositUseCase }
-    private val transferUseCase: TransferUseCase by lazy { MyApplication().transferUseCase }
+    private val checkBalanceEnoughUseCase: CheckBalanceEnoughUseCase by lazy { MyApplication().checkBalanceEnoughUseCase }
+
 
     val accountLiveData = MutableLiveData<Account>()
     val balanceLiveData = MutableLiveData<Int>()
@@ -41,7 +42,7 @@ class AccountViewModel : ViewModel() {
     fun queryBalance(account: Account) {
         viewModelScope.launch {
             Log.e(TAG, "queryBalance: acc: $account")
-            queryBalanceUseCase.invoke(account.serialNumber, account.password)
+            queryBalanceUseCase.invoke(account.serialNumber)
                 .onSuccess {
                     Log.e(TAG, "queryBalance: $it")
                     nowMessage = "Now Balance: $it"
@@ -58,10 +59,10 @@ class AccountViewModel : ViewModel() {
     fun withdraw(account: Account, money: Int) {
         viewModelScope.launch {
             Log.e(TAG, "withdraw: acc: $account")
-            withdrawUseCase.invoke(account.serialNumber, account.password, money)
+            withdrawUseCase.invoke(account.serialNumber, money)
                 .onSuccess {
-                    balanceLiveData.postValue(it)
-                    Log.e(TAG, "withdraw: money: $it")
+                    balanceLiveData.postValue(account.queryBalance())
+                    Log.e(TAG, "withdraw: money: ${account.queryBalance()}")
                     login(account.serialNumber, account.password)
                     queryBalance(account)
                 }
@@ -76,7 +77,7 @@ class AccountViewModel : ViewModel() {
     fun deposit(account: Account, money: Int) {
         viewModelScope.launch {
             Log.e(TAG, "deposit: acc: $account")
-            depositUseCase.invoke(account.serialNumber, account.password, money)
+            depositUseCase.invoke(account.serialNumber, money)
                 .onSuccess {
                     Log.e(TAG, "deposit: money: $it")
                     login(account.serialNumber, account.password)
@@ -87,7 +88,6 @@ class AccountViewModel : ViewModel() {
                     Log.e(TAG, "withdraw: nowMessage: $nowMessage")
                     messageLiveData.postValue(it.message)
                 }
-
         }
     }
 

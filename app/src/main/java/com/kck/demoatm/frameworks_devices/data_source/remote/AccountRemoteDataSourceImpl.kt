@@ -10,6 +10,9 @@ class AccountRemoteDataSourceImpl : IAccountRemoteDataSource {
     override suspend fun getAllAccount():
             List<Account> = listOf(AccountDB.defaultAccountDB.toEntity())
 
+    override suspend fun getAccount(serialNumber: String): Result<Account> =
+        Result.failure(Throwable(ERROR_MSG_REMOTE_NOT_FOUND))
+
     override suspend fun login(
         serialNumber: String, password: String
     ): Result<Account> = Result.failure(Throwable(ERROR_MSG_REMOTE_NOT_FOUND))
@@ -19,8 +22,6 @@ class AccountRemoteDataSourceImpl : IAccountRemoteDataSource {
     }
 
     override suspend fun updateAccount(
-        serialNumber: String,
-        password: String,
-        balance: Int
+        serialNumber: String, balance: Int
     ): Boolean = false
 }

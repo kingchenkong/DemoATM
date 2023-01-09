@@ -11,26 +11,25 @@ class DepositUseCase {
 
     suspend fun invoke(
         serialNumber: String,
-        password: String,
+//        password: String,
         money: Int
-    ): Result<Int> {
+    ): Result<Account> {
         // 1. login (get entity)
         val account: Account =
-            repository.login(SourceType.LOCAL, serialNumber, password).getOrElse {
+            repository.getAccount(SourceType.LOCAL, serialNumber).getOrElse {
                 return Result.failure(it)
             }
         // 2. deposit
-        account.deposit(money)
+        account.modifyBalance(money, Account.Companion.Action.ADD)
         // 3. generate AccountDB to update db.
         val updateSuccess =
             repository.updateAccount(
                 SourceType.LOCAL,
                 serialNumber,
-                password,
                 account.queryBalance()
             )
         return if (updateSuccess) {
-            Result.success(money)
+            Result.success(account)
         } else {
             Result.failure(Throwable(ERROR_MSG_UPDATE))
         }

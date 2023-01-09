@@ -25,14 +25,22 @@ class AccountRepositoryImpl : IAccountRepository {
         }
     }
 
+    override suspend fun getAccount(sourceType: SourceType, serialNumber: String): Result<Account> {
+        return if (sourceType == SourceType.LOCAL) {
+            localDataSource.getAccount(serialNumber)
+        } else {
+            Result.failure(Throwable(ERROR_MSG_REMOTE_NOT_FOUND))
+        }
+    }
+
+
     override suspend fun updateAccount(
         sourceType: SourceType,
         serialNumber: String,
-        password: String,
         balance: Int
     ): Boolean { // update accountDB by appoint account entity
         return if (sourceType == SourceType.LOCAL) {
-            localDataSource.updateAccount(serialNumber, password, balance)
+            localDataSource.updateAccount(serialNumber, balance)
         } else {
             false
         }

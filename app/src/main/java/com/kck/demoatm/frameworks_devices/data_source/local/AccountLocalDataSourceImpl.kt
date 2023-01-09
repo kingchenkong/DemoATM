@@ -1,5 +1,6 @@
 package com.kck.demoatm.frameworks_devices.data_source.local
 
+import com.kck.demoatm.application.ERROR_MSG_ACC_NOT_FOUND
 import com.kck.demoatm.application.ERROR_MSG_LOGIN
 import com.kck.demoatm.application.MyApplication
 import com.kck.demoatm.entities.Account
@@ -20,11 +21,22 @@ class AccountLocalDataSourceImpl : IAccountLocalDataSource {
         }
     }
 
+    override suspend fun getAccount(
+        serialNumber: String
+    ): Result<Account> {
+        val account = databaseProvider.getAccount(serialNumber)
+        return if (account == null) {
+            Result.failure(Throwable(ERROR_MSG_ACC_NOT_FOUND))
+        } else {
+            Result.success(account.toEntity())
+        }
+    }
+
     override suspend fun login(
         serialNumber: String,
         password: String
     ): Result<Account> {
-        val account = databaseProvider.getAccount(serialNumber, password)
+        val account = databaseProvider.login(serialNumber, password)
         return if (account == null) {
             Result.failure(Throwable(ERROR_MSG_LOGIN))
         } else {
@@ -39,9 +51,8 @@ class AccountLocalDataSourceImpl : IAccountLocalDataSource {
 
     override suspend fun updateAccount(
         serialNumber: String,
-        password: String,
         balance: Int
     ): Boolean =
-        databaseProvider.updateAccount(serialNumber, password, balance)
+        databaseProvider.updateAccount(serialNumber, balance)
 
 }

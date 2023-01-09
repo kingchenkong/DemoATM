@@ -13,10 +13,20 @@ class DatabaseProviderImpl(context: Context) : IDatabaseProvider {
     override suspend fun getAllAccount(): List<AccountDB> = database.accountDao().getAll()
 
     override suspend fun getAccount(
+        serialNumber: String
+    ): AccountDB? =
+        database.accountDao().getAccount(
+            serialNumber = serialNumber
+        ).let {
+            Log.e(TAG, "login: $it")
+            it
+        }
+
+    override suspend fun login(
         serialNumber: String,
         password: String
     ): AccountDB? =
-        database.accountDao().getAccount(
+        database.accountDao().login(
             serialNumber = serialNumber,
             password = password
         ).let {
@@ -31,21 +41,20 @@ class DatabaseProviderImpl(context: Context) : IDatabaseProvider {
 
     override suspend fun updateAccount(
         serialNumber: String,
-        password: String,
         balance: Int
     ): Boolean {
         if (balance <= 0) {
             Log.e(TAG, "updateAccount: Error: account.balance <= 0")
             return false
         }
-        val accDB = database.accountDao().getAccount(serialNumber, password)
+        val accDB = database.accountDao().getAccount(serialNumber)
             ?: return false
 
         accDB.balance = balance
         database.accountDao().updateAccount(accDB)
         Log.d(TAG, "updateAccount: [after Update] accDB: $accDB")
 
-        val testAccountDB = database.accountDao().getAccount(serialNumber, password)
+        val testAccountDB = database.accountDao().getAccount(serialNumber)
         Log.d(TAG, "updateAccount: [last test] accDB: $testAccountDB")
 
         return true

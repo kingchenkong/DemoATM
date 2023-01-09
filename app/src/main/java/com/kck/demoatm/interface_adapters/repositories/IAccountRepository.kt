@@ -12,10 +12,14 @@ interface IAccountRepository {
         password: String
     ): Result<Account>
 
+    suspend fun getAccount(
+        sourceType: SourceType,
+        serialNumber: String
+    ): Result<Account>
+
     suspend fun updateAccount(
         sourceType: SourceType,
         serialNumber: String,
-        password: String,
         balance: Int
     ): Boolean
 }

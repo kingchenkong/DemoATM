@@ -5,6 +5,10 @@ import com.kck.demoatm.entities.Account
 interface IAccountDataSource {
     suspend fun getAllAccount(): List<Account>
 
+    suspend fun getAccount(
+        serialNumber: String
+    ): Result<Account>
+
     suspend fun login(
         serialNumber: String,
         password: String,
@@ -16,7 +20,6 @@ interface IAccountDataSource {
 
     suspend fun updateAccount(
         serialNumber: String,
-        password: String,
         balance: Int
     ): Boolean
 }

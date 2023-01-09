@@ -37,36 +37,15 @@ class TransferActivity : AppCompatActivity() {
     }
 
     private fun initObserver() {
-        transferPresenter.isMockDataStateLiveData.observe(this) {
-            Log.e(TAG, "initObserver: state: $it")
-//            when (it) {
-//                TransferPresenter.IsMOCKDataState.MOCK_1 -> {
-////                    binding.btnMock1.visibility = View.INVISIBLE
-//                }
-//                TransferPresenter.IsMOCKDataState.MOCK_2 -> {
-////                    binding.btnMock2.visibility = View.INVISIBLE
-//                }
-//                TransferPresenter.IsMOCKDataState.MOCK_3 -> {
-////                    binding.btnMock3.visibility = View.INVISIBLE
-//                }
-//                TransferPresenter.IsMOCKDataState.MOCK_4 -> {
-////                    binding.btnMock4.visibility = View.INVISIBLE
-//                }
-//                else -> {}
-//            }
-        }
-
         transferPresenter.accountLiveData.observe(this) {
             Log.e(TAG, "initObserver: account: $it")
             binding.tvSourceSn.text = it.serialNumber
             binding.tvSourceBalance.text = "\$  ${it.queryBalance()}"
-//            binding.tvAccount.text = it.toString()
         }
         transferPresenter.messageLiveData.observe(this) {
             Log.e(TAG, "initObserver: message: $it")
             binding.tvResult.text = it
         }
-
         transferPresenter.inputAmountLiveData.observe(this) {
             Log.e(TAG, "initObserver: input amount: $it")
             Log.e(TAG, "initObserver: input amount int: ${transferPresenter.inputAmountInt}")
@@ -128,16 +107,6 @@ class TransferActivity : AppCompatActivity() {
             hideKeyboard()
             Log.e(TAG, "initListener: btnDestCheck: ")
             lifecycleScope.launchWhenStarted {
-                transferPresenter.accountLiveData.value?.let { account ->
-                    Log.e(TAG, "initListener: accountLiveData SN: ${account.serialNumber}")
-                    transferPresenter.checkMockData(account)
-                }
-//                val errorState = transferPresenter.errorStateLiveData.value
-//                    ?: TransferPresenter.ErrorState.NORMAL
-//                Log.e(TAG, "initListener: errorState: $errorState")
-//                if (errorState == TransferPresenter.ErrorState.NORMAL) {
-//                    transferPresenter.transferCheck()
-//                }
                 transferPresenter.transferCheck()
 
             }
@@ -157,7 +126,7 @@ class TransferActivity : AppCompatActivity() {
             val pwd = bundle.getString("pwd") ?: ""
             Log.e(TAG, "processIntent: sn: $sn, pwd: $pwd")
 
-            transferPresenter.login(sn, pwd)
+            transferPresenter.getAccount(sn)
         }
     }
 

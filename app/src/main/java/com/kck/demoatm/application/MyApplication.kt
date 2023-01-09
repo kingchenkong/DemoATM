@@ -2,7 +2,6 @@ package com.kck.demoatm.application
 
 import android.app.Application
 import android.util.Log
-import com.kck.demoatm.entities.Account
 import com.kck.demoatm.frameworks_devices.data_source.local.AccountLocalDataSourceImpl
 import com.kck.demoatm.frameworks_devices.data_source.local.IAccountLocalDataSource
 import com.kck.demoatm.frameworks_devices.database.data_provider.DatabaseProviderImpl
@@ -25,9 +24,12 @@ class MyApplication : Application() {
     // UseCases
     val depositUseCase: DepositUseCase by lazy { DepositUseCase() }
     val loginUseCase: LoginUseCase by lazy { LoginUseCase() }
+    val getAccountUseCase: GetAccountUseCase by lazy { GetAccountUseCase() }
     val queryBalanceUseCase: QueryBalanceUseCase by lazy { QueryBalanceUseCase() }
     val transferUseCase: TransferUseCase by lazy { TransferUseCase() }
     val withdrawUseCase: WithdrawUseCase by lazy { WithdrawUseCase() }
+    val checkBalanceEnoughUseCase: CheckBalanceEnoughUseCase by lazy { CheckBalanceEnoughUseCase() }
+    val checkDuplicateUseCase: CheckDuplicateUseCase by lazy { CheckDuplicateUseCase() }
 
     @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate() {

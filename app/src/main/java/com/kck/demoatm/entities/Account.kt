@@ -9,11 +9,12 @@ class Account(
     val id: Int,
     val serialNumber: String,
     val password: String,
-    // variable
     private var balance: Int,
 ) {
+    private val TAG: String = Account::class.java.simpleName
+
     companion object {
-        enum class Action { WITHDRAW, DEPOSIT }
+        enum class Action { SUB, ADD }
 
         val defaultAccount = Account(
             id = 0,
@@ -23,45 +24,16 @@ class Account(
         )
     }
 
-    fun login(password: String): Boolean {
-        return this.password == password
-    }
-
-
-    private fun calculateBalance(money: Int, action: Action) {
+    fun modifyBalance(money: Int, action: Action) {
         when (action) {
-            Action.WITHDRAW -> balance -= money
-            Action.DEPOSIT -> balance += money
+            Action.SUB -> balance -= money
+            Action.ADD -> balance += money
         }
-        Log.e("Account", "calculateBalance: money: $money, balance $balance")
+        Log.e(TAG, "calculateBalance: money: $money, balance $balance")
     }
 
     fun queryBalance(): Int {
         return balance
-    }
-
-    fun canWithdraw(money: Int): Boolean {
-        val bool = when {
-            balance == 0 -> false
-            balance < money -> false
-            else -> true
-        }
-        Log.d("Account", "canWithdraw: $bool")
-        return bool
-    }
-
-    fun withdraw(money: Int): Boolean {
-        return when (canWithdraw(money)) {
-            false -> false
-            true -> {
-                calculateBalance(money, Action.WITHDRAW)
-                true
-            }
-        }
-    }
-
-    fun deposit(money: Int) {
-        calculateBalance(money, Action.DEPOSIT)
     }
 
     override fun toString(): String {
