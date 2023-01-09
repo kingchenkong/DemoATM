@@ -1,15 +1,10 @@
 package com.kck.demoatm.frameworks_devices.ui
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.lifecycleScope
 import com.kck.demoatm.R
 import com.kck.demoatm.databinding.ActivityOperateBinding
-import com.kck.demoatm.interface_adapters.presenters.LoginPresenter
 
 class OperateActivity : AppCompatActivity() {
     private val TAG: String = OperateActivity::class.java.simpleName

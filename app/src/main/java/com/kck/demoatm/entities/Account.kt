@@ -33,6 +33,7 @@ class Account(
     }
 
     fun queryBalance(): Int {
+        Log.e(TAG, "queryBalance: $balance")
         return balance
     }
 

@@ -1,6 +1,8 @@
 package com.kck.demoatm.interface_adapters.presenters
 
-class QueryBalancePresenter {
+import androidx.lifecycle.ViewModel
+
+class QueryBalancePresenter:ViewModel() {
     private val TAG: String = QueryBalancePresenter::class.java.simpleName
 
 

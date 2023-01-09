@@ -32,7 +32,6 @@ class TransferActivity : AppCompatActivity() {
             initListener()
 
             processIntent()
-
         }
     }
 
@@ -65,7 +64,6 @@ class TransferActivity : AppCompatActivity() {
                 else -> {}
             }
         }
-
     }
 
     private fun initListener() {
@@ -95,14 +93,12 @@ class TransferActivity : AppCompatActivity() {
             binding.editDestSn.setText(MOCK_4_ACC_SN)
             binding.editDestPwd.setText(MOCK_4_ACC_PWD)
         }
-
         binding.btnAmountCheck.setOnClickListener {
             hideKeyboard()
             transferPresenter.accountLiveData.value?.let { account ->
                 transferPresenter.checkAmountOK(account)
             }
         }
-
         binding.btnDestCheck.setOnClickListener {
             hideKeyboard()
             Log.e(TAG, "initListener: btnDestCheck: ")
@@ -111,7 +107,16 @@ class TransferActivity : AppCompatActivity() {
 
             }
         }
+    }
 
+    private fun processIntent() {
+        intent.getBundleExtra("bundle")?.let { bundle ->
+            val sn: String = bundle.getString("sn") ?: ""
+//            val pwd = bundle.getString("pwd") ?: ""
+            Log.e(TAG, "processIntent: sn: $sn")
+
+            transferPresenter.getAccount(sn)
+        }
     }
 
     private fun hideKeyboard() {
@@ -119,16 +124,4 @@ class TransferActivity : AppCompatActivity() {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
-
-    private fun processIntent() {
-        intent.getBundleExtra("bundle")?.let { bundle ->
-            val sn: String = bundle.getString("sn") ?: ""
-            val pwd = bundle.getString("pwd") ?: ""
-            Log.e(TAG, "processIntent: sn: $sn, pwd: $pwd")
-
-            transferPresenter.getAccount(sn)
-        }
-    }
-
-
 }

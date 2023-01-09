@@ -1,8 +1,9 @@
 package com.kck.demoatm.interface_adapters.presenters
 
-class WithdrawPresenter {
-    private val TAG: String = WithdrawPresenter::class.java.simpleName
+import androidx.lifecycle.ViewModel
 
+class WithdrawPresenter : ViewModel() {
+    private val TAG: String = WithdrawPresenter::class.java.simpleName
 
 
 }
