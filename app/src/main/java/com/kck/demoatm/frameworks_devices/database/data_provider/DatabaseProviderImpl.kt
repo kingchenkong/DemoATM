@@ -43,8 +43,8 @@ class DatabaseProviderImpl(context: Context) : IDatabaseProvider {
         serialNumber: String,
         balance: Int
     ): Boolean {
-        if (balance <= 0) {
-            Log.e(TAG, "updateAccount: Error: account.balance <= 0")
+        if (balance < 0) {
+            Log.e(TAG, "updateAccount: Error: account.balance < 0")
             return false
         }
         val accDB = database.accountDao().getAccount(serialNumber)
