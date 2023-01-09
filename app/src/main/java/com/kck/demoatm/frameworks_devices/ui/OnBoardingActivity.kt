@@ -16,8 +16,8 @@ import com.kck.demoatm.interface_adapters.presenters.AccountViewModel
 import com.kck.demoatm.interface_adapters.repositories.IAccountRepository
 import com.kck.demoatm.use_cases.*
 
-class MainActivity : AppCompatActivity() {
-    private val TAG: String = MainActivity::class.java.simpleName
+class OnBoardingActivity : AppCompatActivity() {
+    private val TAG: String = OnBoardingActivity::class.java.simpleName
 
     private val myApp by lazy { MyApplication() }
 
@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity() {
         val bundle = Bundle()
         bundle.putString("sn", serialNumber)
         bundle.putString("pwd", password)
-        val intent = Intent(this@MainActivity, OperateActivity::class.java)
+        val intent = Intent(this@OnBoardingActivity, OperateActivity::class.java)
         intent.putExtra("bundle", bundle)
         startActivity(intent)
     }

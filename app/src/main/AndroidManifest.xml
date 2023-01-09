@@ -30,7 +30,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".frameworks_devices.ui.MainActivity"
+            android:name=".frameworks_devices.ui.OnBoardingActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

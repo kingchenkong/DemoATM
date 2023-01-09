@@ -14,7 +14,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".frameworks_devices.ui.MainActivity">
+        tools:context=".frameworks_devices.ui.OnBoardingActivity">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gl_edge_start"
