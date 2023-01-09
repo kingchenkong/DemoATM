@@ -1,27 +1,27 @@
 package com.kck.demoatm.frameworks_devices.ui
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.kck.demoatm.R
-import com.kck.demoatm.databinding.ActivityDepositBinding
-import com.kck.demoatm.interface_adapters.presenters.DepositPresenter
+import com.kck.demoatm.databinding.ActivityWithdrawBinding
+import com.kck.demoatm.interface_adapters.presenters.WithdrawPresenter
 
-class DepositActivity : AppCompatActivity() {
-    private val TAG: String = DepositActivity::class.java.simpleName
-    private val presenter: DepositPresenter by viewModels()
+class WithdrawActivity : AppCompatActivity() {
+    private val TAG: String = WithdrawActivity::class.java.simpleName
+    private val presenter: WithdrawPresenter by viewModels()
 
-    private lateinit var binding: ActivityDepositBinding
+    private lateinit var binding: ActivityWithdrawBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_deposit)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_withdraw)
         binding.lifecycleOwner = this
 
         lifecycleScope.launchWhenStarted {
@@ -40,6 +40,7 @@ class DepositActivity : AppCompatActivity() {
         }
         presenter.messageLiveData.observe(this) {
             Log.e(TAG, "initObserver: messageLiveData: $it")
+            binding.tvResult.text = it
         }
         presenter.inputAmountLiveData.observe(this) {
             Log.e(TAG, "initObserver: inputAmountLiveData: $it")
@@ -52,7 +53,9 @@ class DepositActivity : AppCompatActivity() {
         }
         binding.btnDeposit.setOnClickListener {
             hideKeyboard()
-            presenter.deposit(presenter.nowAccount, presenter.inputAmountInt)
+            presenter.withdraw(presenter.nowAccount, presenter.inputAmountInt)
+
+
         }
     }
 

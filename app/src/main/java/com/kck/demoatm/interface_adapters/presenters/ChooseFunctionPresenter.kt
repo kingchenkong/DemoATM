@@ -14,9 +14,6 @@ class ChooseFunctionPresenter : ViewModel() {
 
     private val loginUseCase: LoginUseCase by lazy { MyApplication().loginUseCase }
 
-//    val inputSerialNumberLiveData: MutableLiveData<String> = MutableLiveData()
-//    val inputPasswordLiveData: MutableLiveData<String> = MutableLiveData()
-
     val accountLiveData: MutableLiveData<Account> = MutableLiveData()
     val messageLiveData: MutableLiveData<String> = MutableLiveData()
 

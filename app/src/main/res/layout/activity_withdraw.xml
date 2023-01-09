@@ -7,13 +7,13 @@
 
         <variable
             name="presenter"
-            type="com.kck.demoatm.interface_adapters.presenters.DepositPresenter" />
+            type="com.kck.demoatm.interface_adapters.presenters.WithdrawPresenter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".frameworks_devices.ui.DepositActivity">
+        tools:context=".frameworks_devices.ui.WithdrawActivity">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gl_edge_start"
@@ -147,8 +147,20 @@
                 android:layout_marginBottom="5dp"
                 android:layout_weight="1"
                 android:orientation="horizontal"
-                android:text="Deposit"
+                android:text="Withdraw"
                 android:textSize="18dp" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_result"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="@{presenter.textMessage}"
+            android:textSize="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/gl_edge_end"
+            app:layout_constraintStart_toStartOf="@id/gl_edge_start"
+            app:layout_constraintTop_toTopOf="@id/gl_edge_bot" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -23,7 +23,6 @@ class ChooseFunctionsActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_choose_functions)
         binding.lifecycleOwner = this
 
-
         lifecycleScope.launchWhenStarted {
             initObserver()
             initListener()
@@ -41,7 +40,6 @@ class ChooseFunctionsActivity : AppCompatActivity() {
             }
         }
     }
-
 
     private fun processIntent() {
         intent.getBundleExtra("bundle")?.let { bundle ->
@@ -76,34 +74,36 @@ class ChooseFunctionsActivity : AppCompatActivity() {
         }
         presenter.messageLiveData.observe(this) {
             Log.e(TAG, "initObserver: message: $it")
-//            binding.tvMessage.text = it.toString()
         }
     }
 
     private fun initListener() {
         binding.btnWithdraw.setOnClickListener {
-//            loginPresenter.withdraw(
-//                loginPresenter.nowAccount,
-//                binding.editMoney.text.toString().toInt()
-//            )
+            intentToWithdraw(presenter.nowAccount.serialNumber)
         }
 
         binding.btnDeposit.setOnClickListener {
             intentToDeposit(presenter.nowAccount.serialNumber)
-//            loginPresenter.deposit(
-//                loginPresenter.nowAccount,
-//                binding.editMoney.text.toString().toInt()
-//            )
         }
 
-        binding.btnQuery.setOnClickListener {
+//        binding.btnQuery.setOnClickListener {
 //            loginPresenter.queryBalance(loginPresenter.nowAccount)
-        }
+//        }
 
         binding.btnTransferPage.setOnClickListener {
             intentToTransfer(presenter.nowAccount.serialNumber)
         }
 
+    }
+
+    private fun intentToWithdraw(
+        serialNumber: String
+    ) {
+        val bundle = Bundle()
+        bundle.putString("sn", serialNumber)
+        val intent = Intent(this@ChooseFunctionsActivity, WithdrawActivity::class.java)
+        intent.putExtra("bundle", bundle)
+        startActivity(intent)
     }
 
     private fun intentToDeposit(
@@ -118,11 +118,9 @@ class ChooseFunctionsActivity : AppCompatActivity() {
 
     private fun intentToTransfer(
         serialNumber: String,
-//        password: String,
     ) {
         val bundle = Bundle()
         bundle.putString("sn", serialNumber)
-//        bundle.putString("pwd", password)
         val intent = Intent(this@ChooseFunctionsActivity, TransferActivity::class.java)
         intent.putExtra("bundle", bundle)
         startActivity(intent)
