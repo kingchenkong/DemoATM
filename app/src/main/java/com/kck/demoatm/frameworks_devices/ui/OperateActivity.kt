@@ -28,9 +28,7 @@ class OperateActivity : AppCompatActivity() {
             initListener()
 
             processIntent()
-
         }
-
     }
 
     private fun processIntent() {
@@ -44,33 +42,49 @@ class OperateActivity : AppCompatActivity() {
     }
 
     private fun initObserver() {
+        loginPresenter.textSNLiveData.observe(this) {
+            Log.e(TAG, "initObserver: textSNLiveData: $it")
+            binding.tvSn.text = it
+        }
+        loginPresenter.textPWDLiveData.observe(this) {
+            Log.e(TAG, "initObserver: textPWDLiveData: $it")
+            binding.tvPwd.text = it
+        }
+        loginPresenter.textBalanceLiveData.observe(this) {
+            Log.e(TAG, "initObserver: textBalanceLiveData: $it")
+            binding.tvBalance.text = it
+        }
         loginPresenter.accountLiveData.observe(this) {
             Log.e(TAG, "initObserver: account: $it")
             binding.tvAccount.text = it.toString()
+
+            loginPresenter.textSNLiveData.postValue("${loginPresenter.defTextSN}${it.serialNumber}")
+            loginPresenter.textPWDLiveData.postValue("${loginPresenter.defTextPWD}${it.password}")
+            loginPresenter.textBalanceLiveData.postValue("${loginPresenter.defTextBalance}${it.queryBalance()}")
         }
         loginPresenter.messageLiveData.observe(this) {
             Log.e(TAG, "initObserver: message: $it")
-            binding.tvMessage.text = it.toString()
+//            binding.tvMessage.text = it.toString()
         }
     }
 
     private fun initListener() {
         binding.btnWithdraw.setOnClickListener {
-            loginPresenter.withdraw(
-                loginPresenter.nowAccount,
-                binding.editMoney.text.toString().toInt()
-            )
+//            loginPresenter.withdraw(
+//                loginPresenter.nowAccount,
+//                binding.editMoney.text.toString().toInt()
+//            )
         }
 
         binding.btnDeposit.setOnClickListener {
-            loginPresenter.deposit(
-                loginPresenter.nowAccount,
-                binding.editMoney.text.toString().toInt()
-            )
+//            loginPresenter.deposit(
+//                loginPresenter.nowAccount,
+//                binding.editMoney.text.toString().toInt()
+//            )
         }
 
         binding.btnQuery.setOnClickListener {
-            loginPresenter.queryBalance(loginPresenter.nowAccount)
+//            loginPresenter.queryBalance(loginPresenter.nowAccount)
         }
 
         binding.btnTransferPage.setOnClickListener {
