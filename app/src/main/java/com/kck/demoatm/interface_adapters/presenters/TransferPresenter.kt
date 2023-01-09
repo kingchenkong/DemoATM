@@ -31,18 +31,18 @@ class TransferPresenter : ViewModel() {
         NORMAL, MOCK_1, MOCK_2, MOCK_3, MOCK_4
     }
 
-    val errorStateLiveData = MutableLiveData<ErrorState>()
-    val isMockDataStateLiveData = MutableLiveData<IsMOCKDataState>()
+    val errorStateLiveData: MutableLiveData<ErrorState> = MutableLiveData()
+    val isMockDataStateLiveData: MutableLiveData<IsMOCKDataState> = MutableLiveData()
 
-    val accountLiveData = MutableLiveData<Account>()
-    val messageLiveData = MutableLiveData<String>()
+    val accountLiveData: MutableLiveData<Account> = MutableLiveData()
+    val messageLiveData: MutableLiveData<String> = MutableLiveData()
 
-    val inputAmountLiveData = MutableLiveData<String>()
+    val inputAmountLiveData: MutableLiveData<String> = MutableLiveData()
     val inputAmountInt
         get() = inputAmountLiveData.value?.toInt()
 
-    val inputSerialNumberLiveData = MutableLiveData<String>()
-    val inputPasswordLiveData = MutableLiveData<String>()
+    val inputSerialNumberLiveData: MutableLiveData<String> = MutableLiveData()
+    val inputPasswordLiveData: MutableLiveData<String> = MutableLiveData()
 
     var sourceAccount: ObservableField<Account> = ObservableField(Account.defaultAccount)
 //    var inputAmount: ObservableField<String> = ObservableField("")

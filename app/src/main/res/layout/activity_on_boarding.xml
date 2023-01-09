@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="accountViewModel"
+            type="com.kck.demoatm.interface_adapters.presenters.LoginPresenter" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".frameworks_devices.ui.OnBoardingActivity">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_edge_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.1" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_edge_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.9" />
+
+        <LinearLayout
+            android:id="@+id/ll_mock12"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@id/ll_mock34"
+            app:layout_constraintEnd_toEndOf="@id/gl_edge_end"
+            app:layout_constraintStart_toStartOf="@id/gl_edge_start">
+
+            <Button
+                android:id="@+id/btn_mock1"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:text="Mock 1"
+                android:textSize="14dp" />
+
+            <Button
+                android:id="@+id/btn_mock2"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:text="Mock 2"
+                android:textSize="14dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_mock34"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/gl_edit_serial_top"
+            app:layout_constraintEnd_toEndOf="@id/gl_edge_end"
+            app:layout_constraintStart_toStartOf="@id/gl_edge_start">
+
+            <Button
+                android:id="@+id/btn_mock3"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:text="Mock 3"
+                android:textSize="14dp" />
+
+            <Button
+                android:id="@+id/btn_mock4"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:text="Mock 4"
+                android:textSize="14dp" />
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_edit_serial_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.2" />
+
+        <TextView
+            android:id="@+id/tv_serial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Serial Number:"
+            android:textSize="22dp"
+            app:layout_constraintStart_toStartOf="@id/gl_edge_start"
+            app:layout_constraintTop_toTopOf="@id/gl_edit_serial_top" />
+
+        <EditText
+            android:id="@+id/edit_serial"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="#efefef"
+            android:gravity="start"
+            android:hint=""
+            android:inputType="text"
+            android:orientation="horizontal"
+            android:text="@={accountViewModel.inputSerialNumberLiveData}"
+            android:textColor="@color/black"
+            android:textSize="30dp"
+            app:layout_constraintEnd_toEndOf="@id/gl_edge_end"
+            app:layout_constraintStart_toStartOf="@id/gl_edge_start"
+            app:layout_constraintTop_toBottomOf="@id/tv_serial" />
+
+        <!--        <androidx.constraintlayout.widget.Guideline-->
+        <!--            android:id="@+id/gl_edit_pwd_bot"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:orientation="horizontal"-->
+        <!--            app:layout_constraintGuide_percent="0.35" />-->
+
+        <TextView
+            android:id="@+id/tv_pwd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Password:"
+            android:textSize="22dp"
+            app:layout_constraintStart_toStartOf="@id/gl_edge_start"
+            app:layout_constraintTop_toBottomOf="@id/edit_serial" />
+
+        <EditText
+            android:id="@+id/edit_pwd"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:background="#efefef"
+            android:gravity="start"
+            android:hint=""
+            android:inputType="textPassword"
+            android:orientation="horizontal"
+            android:text="@={accountViewModel.inputPasswordLiveData}"
+            android:textColor="@color/black"
+            android:textSize="30dp"
+            app:layout_constraintEnd_toEndOf="@id/gl_edge_end"
+            app:layout_constraintStart_toStartOf="@id/gl_edge_start"
+            app:layout_constraintTop_toBottomOf="@id/tv_pwd" />
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:text="Login"
+            android:textSize="22dp"
+            app:layout_constraintEnd_toEndOf="@id/gl_edge_end"
+            app:layout_constraintStart_toStartOf="@id/gl_edge_start"
+            app:layout_constraintTop_toBottomOf="@id/edit_pwd" />
+
+        <TextView
+            android:id="@+id/tv_result"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="Result: "
+            android:textSize="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/gl_edge_end"
+            app:layout_constraintStart_toStartOf="@id/gl_edge_start"
+            app:layout_constraintTop_toBottomOf="@id/btn_login" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

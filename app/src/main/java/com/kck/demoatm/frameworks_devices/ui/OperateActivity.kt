@@ -9,15 +9,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.kck.demoatm.R
 import com.kck.demoatm.databinding.ActivityOperateBinding
-import com.kck.demoatm.interface_adapters.presenters.AccountViewModel
-import org.koin.android.ext.android.bind
+import com.kck.demoatm.interface_adapters.presenters.LoginPresenter
 
 class OperateActivity : AppCompatActivity() {
     private val TAG: String = OperateActivity::class.java.simpleName
 
     private lateinit var binding: ActivityOperateBinding
 
-    private val accountViewModel: AccountViewModel by viewModels()
+    private val loginPresenter: LoginPresenter by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,16 +39,16 @@ class OperateActivity : AppCompatActivity() {
             val pwd = bundle.getString("pwd") ?: ""
             Log.e(TAG, "processIntent: sn: $sn, pwd: $pwd")
 
-            accountViewModel.login(sn, pwd)
+            loginPresenter.login(sn, pwd)
         }
     }
 
     private fun initObserver() {
-        accountViewModel.accountLiveData.observe(this) {
+        loginPresenter.accountLiveData.observe(this) {
             Log.e(TAG, "initObserver: account: $it")
             binding.tvAccount.text = it.toString()
         }
-        accountViewModel.messageLiveData.observe(this) {
+        loginPresenter.messageLiveData.observe(this) {
             Log.e(TAG, "initObserver: message: $it")
             binding.tvMessage.text = it.toString()
         }
@@ -57,25 +56,25 @@ class OperateActivity : AppCompatActivity() {
 
     private fun initListener() {
         binding.btnWithdraw.setOnClickListener {
-            accountViewModel.withdraw(
-                accountViewModel.nowAccount,
+            loginPresenter.withdraw(
+                loginPresenter.nowAccount,
                 binding.editMoney.text.toString().toInt()
             )
         }
 
         binding.btnDeposit.setOnClickListener {
-            accountViewModel.deposit(
-                accountViewModel.nowAccount,
+            loginPresenter.deposit(
+                loginPresenter.nowAccount,
                 binding.editMoney.text.toString().toInt()
             )
         }
 
         binding.btnQuery.setOnClickListener {
-            accountViewModel.queryBalance(accountViewModel.nowAccount)
+            loginPresenter.queryBalance(loginPresenter.nowAccount)
         }
 
         binding.btnTransferPage.setOnClickListener {
-            accountViewModel.nowAccount.let {
+            loginPresenter.nowAccount.let {
                 intentToTransfer(it.serialNumber, it.password)
             }
         }

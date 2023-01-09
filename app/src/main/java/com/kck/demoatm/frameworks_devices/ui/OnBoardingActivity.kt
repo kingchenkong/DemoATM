@@ -1,18 +1,21 @@
 package com.kck.demoatm.frameworks_devices.ui
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.kck.demoatm.R
 import com.kck.demoatm.application.*
-import com.kck.demoatm.databinding.ActivityMainBinding
+import com.kck.demoatm.databinding.ActivityOnBoardingBinding
 import com.kck.demoatm.frameworks_devices.data_source.local.IAccountLocalDataSource
 import com.kck.demoatm.frameworks_devices.database.data_provider.IDatabaseProvider
-import com.kck.demoatm.interface_adapters.presenters.AccountViewModel
+import com.kck.demoatm.interface_adapters.presenters.LoginPresenter
 import com.kck.demoatm.interface_adapters.repositories.IAccountRepository
 import com.kck.demoatm.use_cases.*
 
@@ -21,70 +24,78 @@ class OnBoardingActivity : AppCompatActivity() {
 
     private val myApp by lazy { MyApplication() }
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityOnBoardingBinding
 
-    private val accountViewModel: AccountViewModel by viewModels()
+    private val loginPresenter: LoginPresenter by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_on_boarding)
         binding.lifecycleOwner = this
 
-        initListener()
         initObserver()
+        initListener()
 
         lifecycleScope.launchWhenResumed {
 //            test()
         }
     }
 
-    private fun initListener() {
-        binding.btnLogin.setOnClickListener {
-            Log.e(TAG, "initListener: btnLogin")
-            accountViewModel.login(
-                binding.editSerial.text.toString(),
-                binding.editPwd.text.toString()
-            )
-        }
-
-        binding.btnMock1.setOnClickListener {
-            Log.e(TAG, "initListener: btnMock1")
-            accountViewModel.login(
-                MOCK_1_ACC_SN,
-                MOCK_1_ACC_PWD
-            )
-        }
-        binding.btnMock2.setOnClickListener {
-            Log.e(TAG, "initListener: btnMock2")
-            accountViewModel.login(
-                MOCK_2_ACC_SN,
-                MOCK_2_ACC_PWD
-            )
-        }
-        binding.btnMock3.setOnClickListener {
-            Log.e(TAG, "initListener: btnMock3")
-            accountViewModel.login(
-                MOCK_3_ACC_SN,
-                MOCK_3_ACC_PWD
-            )
-        }
-        binding.btnMock4.setOnClickListener {
-            Log.e(TAG, "initListener: btnMock4")
-            accountViewModel.login(
-                MOCK_4_ACC_SN,
-                MOCK_4_ACC_PWD
-            )
-        }
-
-    }
-
     private fun initObserver() {
-        accountViewModel.accountLiveData.observe(this) {
-            Log.e(TAG, "initObserver: $it")
+        loginPresenter.inputSerialNumberLiveData.observe(this) {
+            Log.e(TAG, "initObserver: inputSerialNumberLiveData: $it")
+        }
+
+        loginPresenter.inputPasswordLiveData.observe(this) {
+            Log.e(TAG, "initObserver: inputPasswordLiveData: $it")
+        }
+
+        loginPresenter.accountLiveData.observe(this) {
+            Log.e(TAG, "initObserver: account: $it")
             lifecycleScope.launchWhenStarted {
                 intentToOperateActivity(it.serialNumber, it.password)
             }
         }
+        loginPresenter.messageLiveData.observe(this) {
+            Log.e(TAG, "initObserver: message: $it")
+            lifecycleScope.launchWhenStarted {
+                binding.tvResult.text = it
+            }
+        }
+    }
+
+    private fun initListener() {
+        binding.editSerial.doOnTextChanged { text, start, before, count ->
+            loginPresenter.inputSerialNumberLiveData.postValue(text.toString())
+        }
+        binding.editPwd.doOnTextChanged { text, start, before, count ->
+            loginPresenter.inputPasswordLiveData.postValue(text.toString())
+        }
+        binding.btnLogin.setOnClickListener {
+            Log.e(TAG, "initListener: btnLogin")
+            loginPresenter.login(
+                binding.editSerial.text.toString(),
+                binding.editPwd.text.toString()
+            )
+            hideKeyboard()
+        }
+        binding.btnMock1.setOnClickListener {
+            binding.editSerial.setText(MOCK_1_ACC_SN)
+            binding.editPwd.setText(MOCK_1_ACC_PWD)
+        }
+        binding.btnMock2.setOnClickListener {
+            binding.editSerial.setText(MOCK_2_ACC_SN)
+            binding.editPwd.setText(MOCK_2_ACC_PWD)
+        }
+        binding.btnMock3.setOnClickListener {
+            binding.editSerial.setText(MOCK_3_ACC_SN)
+            binding.editPwd.setText(MOCK_3_ACC_PWD)
+        }
+        binding.btnMock4.setOnClickListener {
+            binding.editSerial.setText(MOCK_4_ACC_SN)
+            binding.editPwd.setText(MOCK_4_ACC_PWD)
+        }
+
     }
 
     private fun intentToOperateActivity(
@@ -97,6 +108,12 @@ class OnBoardingActivity : AppCompatActivity() {
         val intent = Intent(this@OnBoardingActivity, OperateActivity::class.java)
         intent.putExtra("bundle", bundle)
         startActivity(intent)
+    }
+
+    private fun hideKeyboard() {
+        val view = this.currentFocus
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 
     private suspend fun test() {

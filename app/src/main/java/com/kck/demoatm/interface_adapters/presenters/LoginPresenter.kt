@@ -9,8 +9,8 @@ import com.kck.demoatm.entities.Account
 import com.kck.demoatm.use_cases.*
 import kotlinx.coroutines.launch
 
-class AccountViewModel : ViewModel() {
-    private val TAG: String = AccountViewModel::class.java.simpleName
+class LoginPresenter : ViewModel() {
+    private val TAG: String = LoginPresenter::class.java.simpleName
 
     private val loginUseCase: LoginUseCase by lazy { MyApplication().loginUseCase }
     private val queryBalanceUseCase: QueryBalanceUseCase by lazy { MyApplication().queryBalanceUseCase }
@@ -18,10 +18,12 @@ class AccountViewModel : ViewModel() {
     private val depositUseCase: DepositUseCase by lazy { MyApplication().depositUseCase }
     private val checkBalanceEnoughUseCase: CheckBalanceEnoughUseCase by lazy { MyApplication().checkBalanceEnoughUseCase }
 
+    val inputSerialNumberLiveData: MutableLiveData<String> = MutableLiveData()
+    val inputPasswordLiveData: MutableLiveData<String> = MutableLiveData()
 
-    val accountLiveData = MutableLiveData<Account>()
-    val balanceLiveData = MutableLiveData<Int>()
-    val messageLiveData = MutableLiveData<String>()
+    val accountLiveData: MutableLiveData<Account> = MutableLiveData()
+    val balanceLiveData: MutableLiveData<Int> = MutableLiveData()
+    val messageLiveData: MutableLiveData<String> = MutableLiveData()
 
     var nowAccount = Account.defaultAccount
     var nowMessage = ""
@@ -32,6 +34,7 @@ class AccountViewModel : ViewModel() {
                 Log.e(TAG, "login: $it")
                 accountLiveData.postValue(it)
                 nowAccount = it
+                messageLiveData.postValue("Login success.")
             }.onFailure {
                 Log.e(TAG, "login: ${it.message}")
                 messageLiveData.postValue(it.message)

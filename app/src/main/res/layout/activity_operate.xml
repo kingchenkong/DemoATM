@@ -7,7 +7,7 @@
 
         <variable
             name="accountVM"
-            type="com.kck.demoatm.interface_adapters.presenters.AccountViewModel" />
+            type="com.kck.demoatm.interface_adapters.presenters.LoginPresenter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
