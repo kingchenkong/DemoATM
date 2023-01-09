@@ -24,7 +24,6 @@ class MyApplication : Application() {
 
     // UseCases
     val depositUseCase: DepositUseCase by lazy { DepositUseCase() }
-    val getAccountUseCase: GetAccountUseCase by lazy { GetAccountUseCase() }
     val loginUseCase: LoginUseCase by lazy { LoginUseCase() }
     val queryBalanceUseCase: QueryBalanceUseCase by lazy { QueryBalanceUseCase() }
     val transferUseCase: TransferUseCase by lazy { TransferUseCase() }

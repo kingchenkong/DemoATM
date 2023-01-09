@@ -80,7 +80,6 @@ class OperateActivity : AppCompatActivity() {
             }
         }
 
-
     }
 
     private fun intentToTransfer(

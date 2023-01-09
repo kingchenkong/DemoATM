@@ -24,7 +24,7 @@ val RepositoryModule = module {
 
 val UseCaseModule = module {
     single { DepositUseCase() } bind DepositUseCase::class
-    single { GetAccountUseCase() } bind GetAccountUseCase::class
+//    single { GetAccountUseCase() } bind GetAccountUseCase::class
     single { LoginUseCase() } bind LoginUseCase::class
     single { QueryBalanceUseCase() } bind QueryBalanceUseCase::class
     single { TransferUseCase() } bind TransferUseCase::class
