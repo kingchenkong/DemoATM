@@ -105,7 +105,7 @@ class OnBoardingActivity : AppCompatActivity() {
         val bundle = Bundle()
         bundle.putString("sn", serialNumber)
         bundle.putString("pwd", password)
-        val intent = Intent(this@OnBoardingActivity, OperateActivity::class.java)
+        val intent = Intent(this@OnBoardingActivity, ChooseFunctionsActivity::class.java)
         intent.putExtra("bundle", bundle)
         startActivity(intent)
     }
