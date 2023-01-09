@@ -18,17 +18,13 @@ class AccountViewModel : ViewModel() {
     private val depositUseCase: DepositUseCase by lazy { MyApplication().depositUseCase }
     private val transferUseCase: TransferUseCase by lazy { MyApplication().transferUseCase }
 
-
-    // livedata
     val accountLiveData = MutableLiveData<Account>()
     val balanceLiveData = MutableLiveData<Int>()
     val messageLiveData = MutableLiveData<String>()
 
-    // variable
     var nowAccount = Account.defaultAccount
     var nowMessage = ""
 
-    // function
     fun login(sn: String, pwd: String) {
         viewModelScope.launch {
             loginUseCase.invoke(sn, pwd).onSuccess {

@@ -17,6 +17,7 @@ enum class OperateError {
 }
 
 const val ERROR_MSG_LOGIN: String = "Login fail."
-const val ERROR_MSG_BALANCE: String = "Balance not enough"
+const val ERROR_MSG_BALANCE: String = "Balance not enough."
 const val ERROR_MSG_UPDATE: String = "Update fail."
-const val ERROR_MSG_REMOTE_NOT_FOUND: String = "Remote source not found"
+const val ERROR_MSG_REMOTE_NOT_FOUND: String = "Remote source not found."
+const val ERROR_SAME_ACC:String = "Transfer to Same Account."

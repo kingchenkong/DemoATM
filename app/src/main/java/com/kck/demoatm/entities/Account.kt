@@ -27,15 +27,6 @@ class Account(
         return this.password == password
     }
 
-    private fun canWithdraw(money: Int): Boolean {
-        val bool = when {
-            balance == 0 -> false
-            balance < money -> false
-            else -> true
-        }
-        Log.d("Account", "canWithdraw: $bool")
-        return bool
-    }
 
     private fun calculateBalance(money: Int, action: Action) {
         when (action) {
@@ -47,6 +38,16 @@ class Account(
 
     fun queryBalance(): Int {
         return balance
+    }
+
+    fun canWithdraw(money: Int): Boolean {
+        val bool = when {
+            balance == 0 -> false
+            balance < money -> false
+            else -> true
+        }
+        Log.d("Account", "canWithdraw: $bool")
+        return bool
     }
 
     fun withdraw(money: Int): Boolean {
