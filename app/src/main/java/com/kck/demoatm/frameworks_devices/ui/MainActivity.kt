@@ -1,5 +1,6 @@
 package com.kck.demoatm.frameworks_devices.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
@@ -30,6 +31,7 @@ class MainActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
 
         initListener()
+        initObserver()
 
         lifecycleScope.launchWhenResumed {
 //            test()
@@ -76,6 +78,26 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun initObserver() {
+        accountViewModel.accountLiveData.observe(this) {
+            Log.e(TAG, "initObserver: $it")
+            lifecycleScope.launchWhenStarted {
+                intentToOperateActivity(it.serialNumber, it.password)
+            }
+        }
+    }
+
+    private fun intentToOperateActivity(
+        serialNumber: String,
+        password: String,
+    ) {
+        val bundle = Bundle()
+        bundle.putString("sn", serialNumber)
+        bundle.putString("pwd", password)
+        val intent = Intent(this@MainActivity, OperateActivity::class.java)
+        intent.putExtra("bundle", bundle)
+        startActivity(intent)
+    }
 
     private suspend fun test() {
 //        val accountRepository = AccountRepositoryImpl(
