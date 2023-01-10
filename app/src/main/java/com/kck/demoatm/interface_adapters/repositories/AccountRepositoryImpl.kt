@@ -38,11 +38,11 @@ class AccountRepositoryImpl : IAccountRepository {
         sourceType: SourceType,
         serialNumber: String,
         balance: Int
-    ): Boolean { // update accountDB by appoint account entity
+    ): Result<Account> { // update accountDB by appoint account entity
         return if (sourceType == SourceType.LOCAL) {
             localDataSource.updateAccount(serialNumber, balance)
         } else {
-            false
+            Result.failure(Throwable(ERROR_MSG_REMOTE_NOT_FOUND))
         }
     }
 }

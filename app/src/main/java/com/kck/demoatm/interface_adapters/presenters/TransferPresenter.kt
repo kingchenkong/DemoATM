@@ -5,7 +5,7 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kck.demoatm.application.ERROR_MSG_BALANCE
+import com.kck.demoatm.application.ERROR_MSG_BALANCE_NOT_ENOUGH
 import com.kck.demoatm.application.ERROR_MSG_SAME_ACC
 import com.kck.demoatm.application.MyApplication
 import com.kck.demoatm.entities.Account
@@ -81,7 +81,7 @@ class TransferPresenter : ViewModel() {
                 errorStateLiveData.postValue(TransferPresenter.ErrorState.NORMAL)
                 true
             } else {
-                messageLiveData.postValue(ERROR_MSG_BALANCE)
+                messageLiveData.postValue(ERROR_MSG_BALANCE_NOT_ENOUGH)
                 errorStateLiveData.postValue(TransferPresenter.ErrorState.BALANCE_NOT_ENOUGH)
                 false
             }

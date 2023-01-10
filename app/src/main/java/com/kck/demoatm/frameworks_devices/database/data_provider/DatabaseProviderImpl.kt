@@ -18,7 +18,7 @@ class DatabaseProviderImpl(context: Context) : IDatabaseProvider {
         database.accountDao().getAccount(
             serialNumber = serialNumber
         ).let {
-            Log.e(TAG, "login: $it")
+            Log.d(TAG, "login: $it")
             it
         }
 
@@ -30,34 +30,37 @@ class DatabaseProviderImpl(context: Context) : IDatabaseProvider {
             serialNumber = serialNumber,
             password = password
         ).let {
-            Log.e(TAG, "login: $it")
+            Log.d(TAG, "login: $it")
             it
         }
 
     override suspend fun insertAccount(accountDB: AccountDB) {
-        Log.e(TAG, "insertAccount:")
+        Log.d(TAG, "insertAccount:")
         database.accountDao().addAccount(accountDB)
     }
 
     override suspend fun updateAccount(
         serialNumber: String,
         balance: Int
-    ): Boolean {
+    ): AccountDB? {
         if (balance < 0) {
             Log.e(TAG, "updateAccount: Error: account.balance < 0")
-            return false
+            return null
         }
-        val accDB = database.accountDao().getAccount(serialNumber)
-            ?: return false
+        return when (
+            val getAccount = database.accountDao().getAccount(serialNumber)
+        ) {
+            null -> null
+            else -> {
+                getAccount.balance = balance
+                database.accountDao().updateAccount(getAccount)
+                Log.d(TAG, "updateAccount: [After Update] AccountDB: $getAccount")
 
-        accDB.balance = balance
-        database.accountDao().updateAccount(accDB)
-        Log.d(TAG, "updateAccount: [after Update] accDB: $accDB")
-
-        val testAccountDB = database.accountDao().getAccount(serialNumber)
-        Log.d(TAG, "updateAccount: [last test] accDB: $testAccountDB")
-
-        return true
+                val reGetAccountAfterUpdate = database.accountDao().getAccount(serialNumber)
+                Log.d(TAG, "updateAccount: [After Update] re-getAccount: $reGetAccountAfterUpdate")
+                reGetAccountAfterUpdate
+            }
+        }
     }
 
 

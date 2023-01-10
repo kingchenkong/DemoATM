@@ -7,5 +7,6 @@ interface IDatabaseProvider {
     suspend fun getAccount(serialNumber: String): AccountDB?
     suspend fun login(serialNumber: String, password: String): AccountDB?
     suspend fun insertAccount(accountDB: AccountDB)
-    suspend fun updateAccount(serialNumber: String, balance: Int): Boolean
+//    suspend fun updateAccount(serialNumber: String, balance: Int): Boolean
+    suspend fun updateAccount(serialNumber: String, balance: Int): AccountDB?
 }

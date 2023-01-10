@@ -21,5 +21,5 @@ interface IAccountRepository {
         sourceType: SourceType,
         serialNumber: String,
         balance: Int
-    ): Boolean
+    ): Result<Account>
 }

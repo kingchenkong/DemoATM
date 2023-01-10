@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kck.demoatm.application.ERROR_MSG_BALANCE
+import com.kck.demoatm.application.ERROR_MSG_BALANCE_NOT_ENOUGH
 import com.kck.demoatm.application.MyApplication
 import com.kck.demoatm.entities.Account
 import com.kck.demoatm.use_cases.CheckBalanceEnoughUseCase
@@ -47,9 +47,8 @@ class WithdrawPresenter : ViewModel() {
         }
     }
 
-    fun amountEqualZero(amount: Int): Boolean {
-        return amount == 0
-    }
+    fun amountEqualZero(amount: Int): Boolean = amount == 0
+
 
     fun checkBalanceEnough(account: Account, money: Int): Boolean {
         val enough = checkBalanceEnoughUseCase.invoke(account.queryBalance(), money)
@@ -70,8 +69,8 @@ class WithdrawPresenter : ViewModel() {
 
             val enough: Boolean = checkBalanceEnough(account, money)
             if (!enough) {
-                Log.e(TAG, "withdraw: textMessage: $ERROR_MSG_BALANCE")
-                messageLiveData.postValue(ERROR_MSG_BALANCE)
+                Log.e(TAG, "withdraw: textMessage: $ERROR_MSG_BALANCE_NOT_ENOUGH")
+                messageLiveData.postValue(ERROR_MSG_BALANCE_NOT_ENOUGH)
                 return@launch
             }
             withdrawUseCase.invoke(account.serialNumber, money)
