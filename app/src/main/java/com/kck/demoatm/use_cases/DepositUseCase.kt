@@ -14,14 +14,16 @@ class DepositUseCase {
         amount: Int
     ): Result<Account> {
         Log.d("DepositUseCase", "invoke: sn: $serialNumber, amount: $amount")
-        // 1. get account
+        // 1. Get account
         val account: Account =
             repository.getAccount(SourceType.LOCAL, serialNumber).getOrElse {
                 return Result.failure(it)
             }
-        // 2. deposit
+
+        // 2. Deposit
         account.modifyBalance(amount, Account.Companion.Action.ADD)
-        // 3. generate AccountDB to update db.
+
+        // 3. Generate AccountDB to update db.
         return repository.updateAccount(
             SourceType.LOCAL,
             serialNumber,

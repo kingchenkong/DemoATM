@@ -120,7 +120,7 @@ class ChooseFunctionsActivity : AppCompatActivity() {
         Log.d(TAG, "intentToTransfer: $serialNumber")
         val bundle = Bundle()
         bundle.putString("sn", serialNumber)
-        val intent = Intent(this@ChooseFunctionsActivity, NewTransferActivity::class.java)
+        val intent = Intent(this@ChooseFunctionsActivity, TransferActivity::class.java)
         intent.putExtra("bundle", bundle)
         startActivity(intent)
     }

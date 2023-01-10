@@ -27,8 +27,6 @@ class MyApplication : Application() {
     val getAccountUseCase: GetAccountUseCase by lazy { GetAccountUseCase() }
     val transferUseCase: TransferUseCase by lazy { TransferUseCase() }
     val withdrawUseCase: WithdrawUseCase by lazy { WithdrawUseCase() }
-    val checkBalanceEnoughUseCase: CheckBalanceEnoughUseCase by lazy { CheckBalanceEnoughUseCase() }
-    val checkDuplicateUseCase: CheckDuplicateUseCase by lazy { CheckDuplicateUseCase() }
 
     @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate() {

@@ -9,19 +9,19 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.kck.demoatm.R
 import com.kck.demoatm.application.*
-import com.kck.demoatm.databinding.ActivityNewTransferBinding
-import com.kck.demoatm.interface_adapters.presenters.NewTransferPresenter
+import com.kck.demoatm.databinding.ActivityTransferBinding
+import com.kck.demoatm.interface_adapters.presenters.TransferPresenter
 
-class NewTransferActivity : AppCompatActivity() {
-    private val TAG: String = NewTransferActivity::class.java.simpleName
+class TransferActivity : AppCompatActivity() {
+    private val TAG: String = TransferActivity::class.java.simpleName
 
-    private val presenter: NewTransferPresenter by viewModels()
+    private val presenter: TransferPresenter by viewModels()
 
-    private lateinit var binding: ActivityNewTransferBinding
+    private lateinit var binding: ActivityTransferBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_new_transfer)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_transfer)
         binding.lifecycleOwner = this
 
         lifecycleScope.launchWhenStarted {
@@ -44,7 +44,6 @@ class NewTransferActivity : AppCompatActivity() {
         }
         presenter.inputAmountLiveData.observe(this) {
             Log.d(TAG, "initObserver: input amount: $it")
-            Log.d(TAG, "initObserver: input amount int: ${presenter.inputAmountInt}")
         }
     }
 
@@ -76,31 +75,16 @@ class NewTransferActivity : AppCompatActivity() {
             binding.editDestSn.setText(MOCK_4_ACC_SN)
         }
 
-        binding.btnAmountCheck.setOnClickListener {
-            Log.d(TAG, "initListener: btnAmountCheck")
+        binding.btnValidating.setOnClickListener {
+            Log.d(TAG, "initListener: btnValidating")
             this.hideKeyboard(this)
-            presenter.checkAmountOK(
-                presenter.sourceAccount.queryBalance(),
-                presenter.inputAmountInt
-            )
-        }
-        binding.btnDestCheck.setOnClickListener {
-            Log.d(TAG, "initListener: btnDestCheck")
-            this.hideKeyboard(this)
-            presenter.checkDestDuplicate(
-                presenter.sourceAccount.serialNumber,
-                presenter.destSNText
-            )
+            presenter.validating()
         }
 
         binding.btnTransfer.setOnClickListener {
             Log.d(TAG, "initListener: btnTransfer")
             this.hideKeyboard(this)
-            presenter.transfer(
-                presenter.sourceAccount,
-                presenter.destSNText,
-                presenter.inputAmountInt
-            )
+            presenter.transfer()
         }
     }
 

@@ -16,7 +16,7 @@
         android:theme="@style/Theme.DemoATM"
         tools:targetApi="31">
         <activity
-            android:name=".frameworks_devices.ui.NewTransferActivity"
+            android:name=".frameworks_devices.ui.TransferActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
