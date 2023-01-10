@@ -1,6 +1,6 @@
 package com.kck.demoatm.use_cases
 
-import com.kck.demoatm.application.ERROR_MSG_UPDATE
+import android.util.Log
 import com.kck.demoatm.application.MyApplication
 import com.kck.demoatm.application.SourceType
 import com.kck.demoatm.entities.Account
@@ -11,23 +11,21 @@ class DepositUseCase {
 
     suspend fun invoke(
         serialNumber: String,
-//        password: String,
-        money: Int
+        amount: Int
     ): Result<Account> {
-        // 1. login (get entity)
+        Log.d("DepositUseCase", "invoke: sn: $serialNumber, amount: $amount")
+        // 1. get account
         val account: Account =
             repository.getAccount(SourceType.LOCAL, serialNumber).getOrElse {
                 return Result.failure(it)
             }
         // 2. deposit
-        account.modifyBalance(money, Account.Companion.Action.ADD)
+        account.modifyBalance(amount, Account.Companion.Action.ADD)
         // 3. generate AccountDB to update db.
         return repository.updateAccount(
             SourceType.LOCAL,
             serialNumber,
             account.queryBalance()
         )
-        // 4. success - get money to present Ui.
-
     }
 }

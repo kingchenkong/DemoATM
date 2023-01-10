@@ -16,24 +16,25 @@ class Account(
     companion object {
         enum class Action { SUB, ADD }
 
-        val defaultAccount = Account(
-            id = 0,
-            serialNumber = ACC_SN_DEF,
-            password = ACC_PWD_DEF,
-            balance = ACC_BALANCE_DEF,
-        )
+        val defaultAccount
+            get() = Account(
+                id = 0,
+                serialNumber = ACC_SN_DEF,
+                password = ACC_PWD_DEF,
+                balance = ACC_BALANCE_DEF,
+            )
     }
 
     fun modifyBalance(money: Int, action: Action) {
+        Log.d(TAG, "calculateBalance: action: $action, money: $money, balance $balance")
         when (action) {
             Action.SUB -> balance -= money
             Action.ADD -> balance += money
         }
-        Log.e(TAG, "calculateBalance: money: $money, balance $balance")
     }
 
     fun queryBalance(): Int {
-        Log.e(TAG, "queryBalance: $balance")
+        Log.d(TAG, "queryBalance: $balance")
         return balance
     }
 

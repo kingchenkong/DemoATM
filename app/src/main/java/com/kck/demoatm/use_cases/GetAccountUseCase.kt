@@ -10,10 +10,5 @@ class GetAccountUseCase {
 
     suspend fun invoke(
         serialNumber: String,
-    ): Result<Account> {
-        val account = repository.getAccount(SourceType.LOCAL, serialNumber).getOrElse {
-            return Result.failure(it)
-        }
-        return Result.success(account)
-    }
+    ): Result<Account> = repository.getAccount(SourceType.LOCAL, serialNumber)
 }

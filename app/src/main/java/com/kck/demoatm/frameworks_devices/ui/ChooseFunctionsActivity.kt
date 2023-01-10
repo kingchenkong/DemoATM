@@ -17,7 +17,6 @@ class ChooseFunctionsActivity : AppCompatActivity() {
     private val presenter: ChooseFunctionPresenter by viewModels()
     private lateinit var binding: ActivityChooseFunctionsBinding
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_choose_functions)
@@ -45,27 +44,26 @@ class ChooseFunctionsActivity : AppCompatActivity() {
         intent.getBundleExtra("bundle")?.let { bundle ->
             val sn: String = bundle.getString("sn") ?: ""
             val pwd = bundle.getString("pwd") ?: ""
-            Log.e(TAG, "processIntent: sn: $sn, pwd: $pwd")
-
+            Log.d(TAG, "processIntent: sn: $sn, pwd: $pwd")
             presenter.login(sn, pwd)
         }
     }
 
     private fun initObserver() {
         presenter.textSNLiveData.observe(this) {
-            Log.e(TAG, "initObserver: textSNLiveData: $it")
+            Log.d(TAG, "initObserver: textSNLiveData: $it")
             binding.tvSn.text = it
         }
         presenter.textPWDLiveData.observe(this) {
-            Log.e(TAG, "initObserver: textPWDLiveData: $it")
+            Log.d(TAG, "initObserver: textPWDLiveData: $it")
             binding.tvPwd.text = it
         }
         presenter.textBalanceLiveData.observe(this) {
-            Log.e(TAG, "initObserver: textBalanceLiveData: $it")
+            Log.d(TAG, "initObserver: textBalanceLiveData: $it")
             binding.tvBalance.text = it
         }
         presenter.accountLiveData.observe(this) {
-            Log.e(TAG, "initObserver: account: $it")
+            Log.d(TAG, "initObserver: account: $it")
             binding.tvAccount.text = it.toString()
 
             presenter.textSNLiveData.postValue("${presenter.defTextSN}${it.serialNumber}")
@@ -73,28 +71,31 @@ class ChooseFunctionsActivity : AppCompatActivity() {
             presenter.textBalanceLiveData.postValue("${presenter.defTextBalance}${it.queryBalance()}")
         }
         presenter.messageLiveData.observe(this) {
-            Log.e(TAG, "initObserver: message: $it")
+            Log.d(TAG, "initObserver: message: $it")
         }
     }
 
     private fun initListener() {
         binding.btnWithdraw.setOnClickListener {
+            Log.d(TAG, "initListener: btnWithdraw")
             intentToWithdraw(presenter.nowAccount.serialNumber)
         }
 
         binding.btnDeposit.setOnClickListener {
+            Log.d(TAG, "initListener: btnDeposit")
             intentToDeposit(presenter.nowAccount.serialNumber)
         }
 
         binding.btnTransferPage.setOnClickListener {
+            Log.d(TAG, "initListener: btnTransferPage")
             intentToTransfer(presenter.nowAccount.serialNumber)
         }
-
     }
 
     private fun intentToWithdraw(
         serialNumber: String
     ) {
+        Log.d(TAG, "intentToWithdraw: $serialNumber")
         val bundle = Bundle()
         bundle.putString("sn", serialNumber)
         val intent = Intent(this@ChooseFunctionsActivity, WithdrawActivity::class.java)
@@ -105,6 +106,7 @@ class ChooseFunctionsActivity : AppCompatActivity() {
     private fun intentToDeposit(
         serialNumber: String
     ) {
+        Log.d(TAG, "intentToDeposit: $serialNumber")
         val bundle = Bundle()
         bundle.putString("sn", serialNumber)
         val intent = Intent(this@ChooseFunctionsActivity, DepositActivity::class.java)
@@ -115,11 +117,11 @@ class ChooseFunctionsActivity : AppCompatActivity() {
     private fun intentToTransfer(
         serialNumber: String,
     ) {
+        Log.d(TAG, "intentToTransfer: $serialNumber")
         val bundle = Bundle()
         bundle.putString("sn", serialNumber)
         val intent = Intent(this@ChooseFunctionsActivity, NewTransferActivity::class.java)
         intent.putExtra("bundle", bundle)
         startActivity(intent)
     }
-
 }

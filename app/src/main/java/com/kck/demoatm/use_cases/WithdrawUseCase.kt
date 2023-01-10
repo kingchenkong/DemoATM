@@ -1,5 +1,6 @@
 package com.kck.demoatm.use_cases
 
+import android.util.Log
 import com.kck.demoatm.application.ERROR_MSG_BALANCE_NOT_ENOUGH
 import com.kck.demoatm.application.MyApplication
 import com.kck.demoatm.application.SourceType
@@ -13,8 +14,9 @@ class WithdrawUseCase {
 
     suspend fun invoke(
         serialNumber: String,
-        money: Int
+        amount: Int
     ): Result<Account> {
+        Log.d("WithdrawUseCase", "invoke: sn: $serialNumber, amount: $amount")
         // 1. login (get entity)
         val account: Account =
             repository.getAccount(SourceType.LOCAL, serialNumber).getOrElse {
@@ -23,11 +25,11 @@ class WithdrawUseCase {
 
         // 2. Account can withdraw? (check login's entity)
         // 3. Account withdraw. (calculate balance - login's entity)
-        val canWithdraw: Boolean = checkBalanceEnoughUseCase.invoke(account.queryBalance(), money)
+        val canWithdraw: Boolean = checkBalanceEnoughUseCase.invoke(account.queryBalance(), amount)
         if (!canWithdraw) {
             return Result.failure(Throwable(ERROR_MSG_BALANCE_NOT_ENOUGH))
         }
-        account.modifyBalance(money, Account.Companion.Action.SUB)
+        account.modifyBalance(amount, Account.Companion.Action.SUB)
 
         // 4. generate AccountDB to update db.
         return repository.updateAccount(
@@ -35,6 +37,5 @@ class WithdrawUseCase {
             serialNumber,
             account.queryBalance()
         )
-        // 5. success - get money to present Ui.
     }
 }

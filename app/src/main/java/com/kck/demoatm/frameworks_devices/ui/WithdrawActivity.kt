@@ -35,24 +35,26 @@ class WithdrawActivity : AppCompatActivity() {
 
     private fun initObserver() {
         presenter.accountLiveData.observe(this) {
-            Log.e(TAG, "initObserver: accountLiveData: $it")
+            Log.d(TAG, "initObserver: accountLiveData: $it")
             binding.tvSn.text = it.serialNumber
             binding.tvBalance.text = it.queryBalance().toString()
         }
         presenter.messageLiveData.observe(this) {
-            Log.e(TAG, "initObserver: messageLiveData: $it")
+            Log.d(TAG, "initObserver: messageLiveData: $it")
             binding.tvResult.text = it
         }
         presenter.inputAmountLiveData.observe(this) {
-            Log.e(TAG, "initObserver: inputAmountLiveData: $it")
+            Log.d(TAG, "initObserver: inputAmountLiveData: $it")
         }
     }
 
     private fun initListener() {
-        binding.editAmount.doOnTextChanged { text, start, before, count ->
+        binding.editAmount.doOnTextChanged { text, _, _, _ ->
+            Log.d(TAG, "initListener: editAmount")
             presenter.inputAmountLiveData.postValue(text.toString())
         }
         binding.btnDeposit.setOnClickListener {
+            Log.d(TAG, "initListener: btnDeposit")
             this@WithdrawActivity.hideKeyboard(this@WithdrawActivity)
             presenter.withdraw(presenter.nowAccount, presenter.inputAmountInt)
         }
@@ -62,7 +64,7 @@ class WithdrawActivity : AppCompatActivity() {
         intent.getBundleExtra("bundle")?.let { bundle ->
             val sn: String = bundle.getString("sn") ?: ""
             val pwd = bundle.getString("pwd") ?: ""
-            Log.e(TAG, "processIntent: sn: $sn, pwd: $pwd")
+            Log.d(TAG, "processIntent: sn: $sn, pwd: $pwd")
 
             presenter.getAccount(sn)
         }

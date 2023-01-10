@@ -18,7 +18,7 @@ class DatabaseProviderImpl(context: Context) : IDatabaseProvider {
         database.accountDao().getAccount(
             serialNumber = serialNumber
         ).let {
-            Log.d(TAG, "login: $it")
+            Log.d(TAG, "getAccount: $it")
             it
         }
 
@@ -35,7 +35,11 @@ class DatabaseProviderImpl(context: Context) : IDatabaseProvider {
         }
 
     override suspend fun insertAccount(accountDB: AccountDB) {
-        Log.d(TAG, "insertAccount:")
+        Log.d(TAG, "insertAccount: accountDB: $accountDB")
+        if (checkBalance(accountDB.balance)) {
+            Log.e(TAG, "updateAccount: Error: account.balance < 0")
+            return
+        }
         database.accountDao().addAccount(accountDB)
     }
 
@@ -43,7 +47,7 @@ class DatabaseProviderImpl(context: Context) : IDatabaseProvider {
         serialNumber: String,
         balance: Int
     ): AccountDB? {
-        if (balance < 0) {
+        if (checkBalance(balance)) {
             Log.e(TAG, "updateAccount: Error: account.balance < 0")
             return null
         }
@@ -63,5 +67,9 @@ class DatabaseProviderImpl(context: Context) : IDatabaseProvider {
         }
     }
 
+    private fun checkBalance(balance: Int): Boolean {
+        Log.d(TAG, "checkBalance: $balance")
+        return balance < 0
+    }
 
 }

@@ -26,8 +26,6 @@ class WithdrawPresenter : ViewModel() {
         get() = (inputAmountLiveData.value ?: "0").toInt()
 
     var nowAccount = Account.defaultAccount
-    val nowBalance
-        get() = nowAccount.queryBalance()
     val textBalance
         get() = nowAccount.queryBalance().toString()
     val textMessage: String
@@ -37,6 +35,7 @@ class WithdrawPresenter : ViewModel() {
         viewModelScope.launch {
             getAccountUseCase.invoke(serialNumber)
                 .onSuccess {
+                    Log.d(TAG, "getAccount: success: $it")
                     accountLiveData.postValue(it)
                     nowAccount = it
                 }
@@ -47,10 +46,9 @@ class WithdrawPresenter : ViewModel() {
         }
     }
 
-    fun amountEqualZero(amount: Int): Boolean = amount == 0
+    private fun amountEqualZero(amount: Int): Boolean = amount == 0
 
-
-    fun checkBalanceEnough(account: Account, money: Int): Boolean {
+    private fun checkBalanceEnough(account: Account, money: Int): Boolean {
         val enough = checkBalanceEnoughUseCase.invoke(account.queryBalance(), money)
         Log.e(TAG, "checkBalanceEnough: $enough")
         return enough
@@ -75,12 +73,12 @@ class WithdrawPresenter : ViewModel() {
             }
             withdrawUseCase.invoke(account.serialNumber, money)
                 .onSuccess {
-                    Log.e(TAG, "withdraw: money: $money")
+                    Log.d(TAG, "withdraw: success: money: $money")
                     getAccount(it.serialNumber)
                     messageLiveData.postValue("Success. Withdraw \$ $money")
                 }
                 .onFailure {
-                    Log.e(TAG, "withdraw: textMessage: $textMessage")
+                    Log.e(TAG, "withdraw: fail: textMessage: $it")
                     messageLiveData.postValue(it.message)
                 }
         }

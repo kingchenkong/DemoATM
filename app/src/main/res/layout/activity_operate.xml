@@ -147,7 +147,7 @@
             android:id="@+id/tv_account"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{loginPresenter.nowAccount.toString()}"
+            android:text="@{loginPresenter.accountLiveData.toString()}"
             android:textColor="@android:color/black"
             android:textSize="16dp"
             app:layout_constraintEnd_toEndOf="@id/gl_edge_end"

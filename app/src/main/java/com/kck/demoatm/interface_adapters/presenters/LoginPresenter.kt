@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kck.demoatm.application.MyApplication
 import com.kck.demoatm.entities.Account
-import com.kck.demoatm.use_cases.*
+import com.kck.demoatm.use_cases.LoginUseCase
 import kotlinx.coroutines.launch
 
 class LoginPresenter : ViewModel() {
@@ -16,12 +16,8 @@ class LoginPresenter : ViewModel() {
 
     val inputSerialNumberLiveData: MutableLiveData<String> = MutableLiveData()
     val inputPasswordLiveData: MutableLiveData<String> = MutableLiveData()
-
     val accountLiveData: MutableLiveData<Account> = MutableLiveData()
     val messageLiveData: MutableLiveData<String> = MutableLiveData()
-
-    var nowAccount = Account.defaultAccount
-
     val textSNLiveData: MutableLiveData<String> = MutableLiveData()
     val textPWDLiveData: MutableLiveData<String> = MutableLiveData()
     val textBalanceLiveData: MutableLiveData<String> = MutableLiveData()
@@ -29,12 +25,11 @@ class LoginPresenter : ViewModel() {
     fun login(sn: String, pwd: String) {
         viewModelScope.launch {
             loginUseCase.invoke(sn, pwd).onSuccess {
-                Log.e(TAG, "login: $it")
+                Log.d(TAG, "login: success: $it")
                 accountLiveData.postValue(it)
-                nowAccount = it
                 messageLiveData.postValue("Login success.")
             }.onFailure {
-                Log.e(TAG, "login: ${it.message}")
+                Log.e(TAG, "login: fail: ${it.message}")
                 messageLiveData.postValue(it.message)
             }
         }

@@ -17,44 +17,38 @@ class DepositPresenter : ViewModel() {
     private val depositUseCase: DepositUseCase by lazy { MyApplication().depositUseCase }
 
     val accountLiveData: MutableLiveData<Account> = MutableLiveData()
-    val messageLiveData: MutableLiveData<String> = MutableLiveData()
+    var nowAccount = Account.defaultAccount
+    val textNowBalance
+        get() = nowAccount.queryBalance().toString()
+
     val inputAmountLiveData: MutableLiveData<String> = MutableLiveData()
     val inputAmountInt
         get() = (inputAmountLiveData.value ?: "0").toInt()
-
-    var nowAccount = Account.defaultAccount
-    val nowBalance
-        get() = nowAccount.queryBalance()
-    val textBalance
-        get() = nowAccount.queryBalance().toString()
-    var textMessage: String = ""
 
     fun getAccount(serialNumber: String) {
         viewModelScope.launch {
             getAccountUseCase.invoke(serialNumber)
                 .onSuccess {
+                    Log.d(TAG, "getAccount: $it")
                     accountLiveData.postValue(it)
                     nowAccount = it
                 }
                 .onFailure {
                     Log.e(TAG, "getAccount: ${it.message}")
-                    messageLiveData.postValue(it.message)
                 }
         }
     }
 
-    fun deposit(account: Account, money: Int) {
+    fun deposit(account: Account, amount: Int) {
         viewModelScope.launch {
             Log.e(TAG, "deposit: acc: $account")
-            depositUseCase.invoke(account.serialNumber, money)
+            depositUseCase.invoke(account.serialNumber, amount)
                 .onSuccess {
-                    Log.e(TAG, "deposit: money: $it")
+                    Log.d(TAG, "deposit: account: $it")
                     getAccount(account.serialNumber)
                 }
                 .onFailure {
-                    textMessage = it.message ?: "throwable no message"
-                    Log.e(TAG, "deposit: nowMessage: $textMessage")
-                    messageLiveData.postValue(it.message)
+                    Log.e(TAG, "deposit: fail: ${it.message}")
                 }
         }
     }

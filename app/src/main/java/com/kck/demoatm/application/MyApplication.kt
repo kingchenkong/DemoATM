@@ -25,7 +25,6 @@ class MyApplication : Application() {
     val depositUseCase: DepositUseCase by lazy { DepositUseCase() }
     val loginUseCase: LoginUseCase by lazy { LoginUseCase() }
     val getAccountUseCase: GetAccountUseCase by lazy { GetAccountUseCase() }
-    val queryBalanceUseCase: QueryBalanceUseCase by lazy { QueryBalanceUseCase() }
     val transferUseCase: TransferUseCase by lazy { TransferUseCase() }
     val withdrawUseCase: WithdrawUseCase by lazy { WithdrawUseCase() }
     val checkBalanceEnoughUseCase: CheckBalanceEnoughUseCase by lazy { CheckBalanceEnoughUseCase() }
@@ -34,7 +33,6 @@ class MyApplication : Application() {
     @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate() {
         super.onCreate()
-        Log.e("MyApplication", "onCreate: ")
         GlobalScope.launch {
             initDatabase()
         }
@@ -54,32 +52,17 @@ class MyApplication : Application() {
             }
             Log.e(TAG, "initialize: execute init db.")
         } else {
-            Log.e(TAG, "initialize: stop init db.")
+            Log.d(TAG, "initialize: stop init db.")
         }
     }
 
     private fun displayAccount(list: List<AccountDB>) {
-        Log.e(TAG, "displayAccount: all Account size: ${list.size}")
+        Log.d(TAG, "displayAccount: all Account size: ${list.size}")
         var count = 0
         list.forEach {
             count += 1
-            Log.e(TAG, "displayAccount: $count, account: $it")
+            Log.d(TAG, "displayAccount: $count, account: $it")
         }
 
     }
-
-//    fun koinStarter() {
-//        startKoin {
-//            androidLogger(Level.ERROR)
-//            androidContext(this@MyApplication)
-//
-//            modules(
-//                DataProviderModule,
-//                DataSourceModule,
-//                RepositoryModule,
-//                UseCaseModule,
-//            )
-//        }
-//    }
-
 }

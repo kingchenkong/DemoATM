@@ -15,37 +15,19 @@ import kotlinx.coroutines.launch
 class NewTransferPresenter : ViewModel() {
     private val TAG: String = NewTransferPresenter::class.java.simpleName
 
-    enum class ErrorState {
-        NORMAL, BALANCE_NOT_ENOUGH, SAME_ACC
-    }
-
     private val getAccountUseCase: GetAccountUseCase by lazy { MyApplication().getAccountUseCase }
-    private val withdrawUseCase: WithdrawUseCase by lazy { MyApplication().withdrawUseCase }
-    private val depositUseCase: DepositUseCase by lazy { MyApplication().depositUseCase }
     private val transferUseCase: TransferUseCase by lazy { MyApplication().transferUseCase }
     private val checkBalanceEnoughUseCase: CheckBalanceEnoughUseCase by lazy { MyApplication().checkBalanceEnoughUseCase }
     private val checkDuplicateUseCase: CheckDuplicateUseCase by lazy { MyApplication().checkDuplicateUseCase }
 
-    val errorStateLiveData: MutableLiveData<TransferPresenter.ErrorState> = MutableLiveData()
-
     val sourceAccountLiveData: MutableLiveData<Account> = MutableLiveData()
     val sourceAccount: Account
         get() = sourceAccountLiveData.value ?: Account.defaultAccount
-    val sourceBalance: Int
-        get() = sourceAccount.queryBalance()
     val sourceBalanceText: String
-        get() = sourceBalance.toString()
-
-    val destAccountLiveData: MutableLiveData<Account> = MutableLiveData()
-    val destAccount: Account
-        get() = destAccountLiveData.value ?: Account.defaultAccount
-//    val destBalance: Int
-//        get() = destAccount.queryBalance()
-//    val destBalanceText: String
-//        get() = destBalance.toString()
+        get() = sourceAccount.queryBalance().toString()
 
     val inputAmountLiveData: MutableLiveData<String> = MutableLiveData()
-    val inputAmountText: String
+    private val inputAmountText: String
         get() = inputAmountLiveData.value ?: "0"
     val inputAmountInt: Int
         get() = getterInputAmountInt()
@@ -71,6 +53,7 @@ class NewTransferPresenter : ViewModel() {
         viewModelScope.launch {
             getAccountUseCase.invoke(serialNumber)
                 .onSuccess {
+                    Log.d(TAG, "getAccount: success")
                     sourceAccountLiveData.postValue(it)
                 }
                 .onFailure {
@@ -82,7 +65,7 @@ class NewTransferPresenter : ViewModel() {
 
     fun checkAmountOK(balance: Int, amount: Int): Boolean {
         if (amount == 0) {
-            Log.w(TAG, "checkAmountOK: amount == 0")
+            Log.e(TAG, "checkAmountOK: amount == 0")
             messageLiveData.postValue(ERROR_MSG_AMOUNT_IS_0)
             return false
         }
@@ -114,15 +97,13 @@ class NewTransferPresenter : ViewModel() {
     }
 
     private fun messageDuplicateAccount() {
-        Log.w(TAG, "messageDuplicateAccount: ")
+        Log.d(TAG, "messageDuplicateAccount: ")
         messageLiveData.postValue(ERROR_MSG_SAME_ACC)
-        errorStateLiveData.postValue(TransferPresenter.ErrorState.SAME_ACC)
     }
 
     private fun messageErrorBalanceNotEnough() {
-        Log.w(TAG, "messageErrorBalanceNotEnough: ")
+        Log.d(TAG, "messageErrorBalanceNotEnough: ")
         messageLiveData.postValue(ERROR_MSG_BALANCE_NOT_ENOUGH)
-        errorStateLiveData.postValue(TransferPresenter.ErrorState.BALANCE_NOT_ENOUGH)
     }
 
     fun transfer(
@@ -138,7 +119,7 @@ class NewTransferPresenter : ViewModel() {
                 transferUseCase.invoke(
                     sourceSN = sourceSN,
                     destSN = destSN,
-                    money = amount
+                    amount = amount
                 ).onSuccess {
                     Log.d(TAG, "transfer: dest-Account: $it")
                     messageLiveData.postValue("Transfer Success, \$ $amount")

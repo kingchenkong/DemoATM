@@ -8,6 +8,7 @@ import com.kck.demoatm.application.MyApplication
 import com.kck.demoatm.entities.Account
 import com.kck.demoatm.frameworks_devices.database.data_provider.IDatabaseProvider
 import com.kck.demoatm.frameworks_devices.database.models.AccountDB
+import com.kck.demoatm.interface_adapters.mappers.toDB
 import com.kck.demoatm.interface_adapters.mappers.toEntity
 
 class AccountLocalDataSourceImpl : IAccountLocalDataSource {
@@ -29,7 +30,7 @@ class AccountLocalDataSourceImpl : IAccountLocalDataSource {
     ): Result<Account> {
         val account = databaseProvider.getAccount(serialNumber)
         return if (account == null) {
-            Log.e(TAG, "getAccount: account == null")
+            Log.e(TAG, "getAccount: fail: ERROR_MSG_ACC_NOT_FOUND")
             Result.failure(Throwable(ERROR_MSG_ACC_NOT_FOUND))
         } else {
             Result.success(account.toEntity())
@@ -40,17 +41,17 @@ class AccountLocalDataSourceImpl : IAccountLocalDataSource {
         serialNumber: String,
         password: String
     ): Result<Account> {
-        val account = databaseProvider.login(serialNumber, password)
-        return if (account == null) {
-            Log.e(TAG, "login: account == null")
+        val accountDB = databaseProvider.login(serialNumber, password)
+        return if (accountDB == null) {
+            Log.e(TAG, "login: fail: ERROR_MSG_LOGIN")
             Result.failure(Throwable(ERROR_MSG_LOGIN))
         } else {
-            Result.success(account.toEntity())
+            Result.success(accountDB.toEntity())
         }
     }
 
     override suspend fun insertAccount(account: Account) {
-        val accountDB = AccountDB.constructByAccount(account)
+        val accountDB = account.toDB()
         databaseProvider.insertAccount(accountDB)
     }
 
@@ -59,10 +60,13 @@ class AccountLocalDataSourceImpl : IAccountLocalDataSource {
         balance: Int
     ): Result<Account> {
         return when (
-            val account = databaseProvider.updateAccount(serialNumber, balance)
+            val accountDB = databaseProvider.updateAccount(serialNumber, balance)
         ) {
-            null -> Result.failure(Throwable(ERROR_MSG_UPDATE))
-            else -> Result.success(account.toEntity())
+            null -> {
+                Log.e(TAG, "updateAccount: fail: ERROR_MSG_UPDATE")
+                Result.failure(Throwable(ERROR_MSG_UPDATE))
+            }
+            else -> Result.success(accountDB.toEntity())
         }
     }
 

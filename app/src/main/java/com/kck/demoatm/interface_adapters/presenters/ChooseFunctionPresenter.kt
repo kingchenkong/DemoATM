@@ -27,14 +27,15 @@ class ChooseFunctionPresenter : ViewModel() {
     val textBalanceLiveData: MutableLiveData<String> = MutableLiveData()
 
     fun login(sn: String, pwd: String) {
+        Log.d(TAG, "login: sn: $sn, pwd: $pwd")
         viewModelScope.launch {
             loginUseCase.invoke(sn, pwd).onSuccess {
-                Log.e(TAG, "login: $it")
+                Log.e(TAG, "login: success, $it")
                 accountLiveData.postValue(it)
                 nowAccount = it
                 messageLiveData.postValue("Login success.")
             }.onFailure {
-                Log.e(TAG, "login: ${it.message}")
+                Log.e(TAG, "login: fail, ${it.message}")
                 messageLiveData.postValue(it.message)
             }
         }

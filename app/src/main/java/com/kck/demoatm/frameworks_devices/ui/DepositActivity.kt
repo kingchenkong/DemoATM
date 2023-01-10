@@ -35,23 +35,19 @@ class DepositActivity : AppCompatActivity() {
 
     private fun initObserver() {
         presenter.accountLiveData.observe(this) {
-            Log.e(TAG, "initObserver: accountLiveData: $it")
+            Log.d(TAG, "initObserver: accountLiveData: $it")
             binding.tvSn.text = it.serialNumber
             binding.tvBalance.text = it.queryBalance().toString()
-        }
-        presenter.messageLiveData.observe(this) {
-            Log.e(TAG, "initObserver: messageLiveData: $it")
-        }
-        presenter.inputAmountLiveData.observe(this) {
-            Log.e(TAG, "initObserver: inputAmountLiveData: $it")
         }
     }
 
     private fun initListener() {
-        binding.editAmount.doOnTextChanged { text, start, before, count ->
+        binding.editAmount.doOnTextChanged { text, _, _, _ ->
+            Log.d(TAG, "initListener: editAmount: $text")
             presenter.inputAmountLiveData.postValue(text.toString())
         }
         binding.btnDeposit.setOnClickListener {
+            Log.d(TAG, "initListener: btnDeposit")
             this.hideKeyboard(this)
             presenter.deposit(presenter.nowAccount, presenter.inputAmountInt)
         }
@@ -61,7 +57,7 @@ class DepositActivity : AppCompatActivity() {
         intent.getBundleExtra("bundle")?.let { bundle ->
             val sn: String = bundle.getString("sn") ?: ""
             val pwd = bundle.getString("pwd") ?: ""
-            Log.e(TAG, "processIntent: sn: $sn, pwd: $pwd")
+            Log.d(TAG, "processIntent: sn: $sn, pwd: $pwd")
 
             presenter.getAccount(sn)
         }

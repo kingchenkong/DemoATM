@@ -11,10 +11,5 @@ class LoginUseCase {
     suspend fun invoke(
         serialNumber: String,
         password: String
-    ): Result<Account> {
-        val account = repository.login(SourceType.LOCAL, serialNumber, password).getOrElse {
-            return Result.failure(it)
-        }
-        return Result.success(account)
-    }
+    ): Result<Account> = repository.login(SourceType.LOCAL, serialNumber, password)
 }

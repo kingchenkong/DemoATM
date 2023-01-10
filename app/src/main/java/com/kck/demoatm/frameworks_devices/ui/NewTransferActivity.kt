@@ -34,43 +34,50 @@ class NewTransferActivity : AppCompatActivity() {
 
     private fun initObserver() {
         presenter.sourceAccountLiveData.observe(this) {
-            Log.e(TAG, "initObserver: account: $it")
+            Log.d(TAG, "initObserver: account: $it")
             binding.tvSourceSn.text = it.serialNumber
             binding.tvSourceBalance.text = "\$  ${it.queryBalance()}"
         }
         presenter.messageLiveData.observe(this) {
-            Log.e(TAG, "initObserver: message: $it")
+            Log.d(TAG, "initObserver: message: $it")
             binding.tvResult.text = it
         }
         presenter.inputAmountLiveData.observe(this) {
-            Log.e(TAG, "initObserver: input amount: $it")
-            Log.e(TAG, "initObserver: input amount int: ${presenter.inputAmountInt}")
+            Log.d(TAG, "initObserver: input amount: $it")
+            Log.d(TAG, "initObserver: input amount int: ${presenter.inputAmountInt}")
         }
     }
 
     private fun initListener() {
-        binding.editSourceAmount.doOnTextChanged { text, start, before, count ->
+        binding.editSourceAmount.doOnTextChanged { text, _, _, _ ->
+            Log.d(TAG, "initListener: editSourceAmount")
             presenter.inputAmountLiveData.postValue(text.toString())
         }
 
-        binding.editDestSn.doOnTextChanged { text, start, before, count ->
+        binding.editDestSn.doOnTextChanged { text, _, _, _ ->
+            Log.d(TAG, "initListener: editDestSn")
             presenter.inputDestSNLiveData.postValue(text.toString())
         }
 
         binding.btnMock1.setOnClickListener {
+            Log.d(TAG, "initListener: btnMock1")
             binding.editDestSn.setText(MOCK_1_ACC_SN)
         }
         binding.btnMock2.setOnClickListener {
+            Log.d(TAG, "initListener: btnMock2")
             binding.editDestSn.setText(MOCK_2_ACC_SN)
         }
         binding.btnMock3.setOnClickListener {
+            Log.d(TAG, "initListener: btnMock3")
             binding.editDestSn.setText(MOCK_3_ACC_SN)
         }
         binding.btnMock4.setOnClickListener {
+            Log.d(TAG, "initListener: btnMock4")
             binding.editDestSn.setText(MOCK_4_ACC_SN)
         }
 
         binding.btnAmountCheck.setOnClickListener {
+            Log.d(TAG, "initListener: btnAmountCheck")
             this.hideKeyboard(this)
             presenter.checkAmountOK(
                 presenter.sourceAccount.queryBalance(),
@@ -78,6 +85,7 @@ class NewTransferActivity : AppCompatActivity() {
             )
         }
         binding.btnDestCheck.setOnClickListener {
+            Log.d(TAG, "initListener: btnDestCheck")
             this.hideKeyboard(this)
             presenter.checkDestDuplicate(
                 presenter.sourceAccount.serialNumber,
@@ -86,6 +94,7 @@ class NewTransferActivity : AppCompatActivity() {
         }
 
         binding.btnTransfer.setOnClickListener {
+            Log.d(TAG, "initListener: btnTransfer")
             this.hideKeyboard(this)
             presenter.transfer(
                 presenter.sourceAccount,
@@ -93,13 +102,12 @@ class NewTransferActivity : AppCompatActivity() {
                 presenter.inputAmountInt
             )
         }
-
     }
 
     private fun processIntent() {
         intent.getBundleExtra("bundle")?.let { bundle ->
             val sn: String = bundle.getString("sn") ?: ""
-            Log.e(TAG, "processIntent: sn: $sn")
+            Log.d(TAG, "processIntent: sn: $sn")
             presenter.getAccount(sn)
         }
     }

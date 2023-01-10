@@ -44,13 +44,6 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".frameworks_devices.ui.TransferActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".frameworks_devices.ui.OnBoardingActivity"
             android:exported="true">
             <intent-filter>
