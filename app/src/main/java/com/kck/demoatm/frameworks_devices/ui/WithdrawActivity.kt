@@ -10,6 +10,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.kck.demoatm.R
+import com.kck.demoatm.application.hideKeyboard
 import com.kck.demoatm.databinding.ActivityWithdrawBinding
 import com.kck.demoatm.interface_adapters.presenters.WithdrawPresenter
 
@@ -52,10 +53,8 @@ class WithdrawActivity : AppCompatActivity() {
             presenter.inputAmountLiveData.postValue(text.toString())
         }
         binding.btnDeposit.setOnClickListener {
-            hideKeyboard()
+            this@WithdrawActivity.hideKeyboard(this@WithdrawActivity)
             presenter.withdraw(presenter.nowAccount, presenter.inputAmountInt)
-
-
         }
     }
 
@@ -67,11 +66,5 @@ class WithdrawActivity : AppCompatActivity() {
 
             presenter.getAccount(sn)
         }
-    }
-
-    private fun hideKeyboard() {
-        val view = this.currentFocus
-        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 }

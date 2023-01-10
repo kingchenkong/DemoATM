@@ -94,13 +94,13 @@ class TransferActivity : AppCompatActivity() {
             binding.editDestPwd.setText(MOCK_4_ACC_PWD)
         }
         binding.btnAmountCheck.setOnClickListener {
-            hideKeyboard()
+            this.hideKeyboard(this)
             transferPresenter.accountLiveData.value?.let { account ->
                 transferPresenter.checkAmountOK(account)
             }
         }
         binding.btnDestCheck.setOnClickListener {
-            hideKeyboard()
+            this.hideKeyboard(this)
             Log.e(TAG, "initListener: btnDestCheck: ")
             lifecycleScope.launchWhenStarted {
                 transferPresenter.transferCheck()
@@ -116,11 +116,5 @@ class TransferActivity : AppCompatActivity() {
 
             transferPresenter.getAccount(sn)
         }
-    }
-
-    private fun hideKeyboard() {
-        val view = this.currentFocus
-        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 }
