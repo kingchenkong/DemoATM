@@ -24,7 +24,7 @@ class WithdrawUseCase {
 
         // 2. Account can withdraw? (check login's entity)
         // 3. Account withdraw. (calculate balance - login's entity)
-        val canWithdraw: Boolean = checkBalanceEnoughUseCase.invoke(account, money)
+        val canWithdraw: Boolean = checkBalanceEnoughUseCase.invoke(account.queryBalance(), money)
         if (!canWithdraw) {
             return Result.failure(Throwable(ERROR_MSG_BALANCE))
         }

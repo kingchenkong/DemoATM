@@ -75,16 +75,15 @@ class TransferPresenter : ViewModel() {
 
     fun checkAmountOK(account: Account): Boolean {
         inputAmountInt?.let {
-            val isBalanceEnough: Boolean = checkBalanceEnoughUseCase.invoke(account, it)
-
+            val isBalanceEnough: Boolean = checkBalanceEnoughUseCase.invoke(account.queryBalance(), it)
             return if (isBalanceEnough) {
-                messageLiveData.postValue(ERROR_MSG_BALANCE)
-                errorStateLiveData.postValue(ErrorState.BALANCE_NOT_ENOUGH)
-                false
-            } else {
                 messageLiveData.postValue("Amount is OK")
-                errorStateLiveData.postValue(ErrorState.NORMAL)
+                errorStateLiveData.postValue(TransferPresenter.ErrorState.NORMAL)
                 true
+            } else {
+                messageLiveData.postValue(ERROR_MSG_BALANCE)
+                errorStateLiveData.postValue(TransferPresenter.ErrorState.BALANCE_NOT_ENOUGH)
+                false
             }
         }
         return false

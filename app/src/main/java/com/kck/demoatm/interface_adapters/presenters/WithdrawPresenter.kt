@@ -52,7 +52,7 @@ class WithdrawPresenter : ViewModel() {
     }
 
     fun checkBalanceEnough(account: Account, money: Int): Boolean {
-        val enough = checkBalanceEnoughUseCase.invoke(account, money)
+        val enough = checkBalanceEnoughUseCase.invoke(account.queryBalance(), money)
         Log.e(TAG, "checkBalanceEnough: $enough")
         return enough
     }
