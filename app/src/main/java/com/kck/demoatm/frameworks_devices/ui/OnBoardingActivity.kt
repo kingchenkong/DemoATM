@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.kck.demoatm.R
@@ -15,17 +14,16 @@ import com.kck.demoatm.interface_adapters.presenters.LoginPresenter
 
 class OnBoardingActivity : AppCompatActivity() {
     private val TAG: String = OnBoardingActivity::class.java.simpleName
-
-    private val myApp by lazy { MyApplication() }
+    private val presenter: LoginPresenter by viewModels()
 
     private lateinit var binding: ActivityOnBoardingBinding
 
-    private val loginPresenter: LoginPresenter by viewModels()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_on_boarding)
         binding.lifecycleOwner = this
+        binding.presenter = presenter
 
         lifecycleScope.launchWhenStarted {
             initObserver()
@@ -33,67 +31,68 @@ class OnBoardingActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        lifecycleScope.launchWhenResumed {
+            presenter.inputSerialNumberLiveData.postValue("")
+            presenter.inputPasswordLiveData.postValue("")
+            presenter.messageLiveData.postValue("")
+            binding.editSerial.requestFocus()
+            this@OnBoardingActivity.displayKeyboard(this@OnBoardingActivity)
+        }
+    }
+
     private fun initObserver() {
-        loginPresenter.inputSerialNumberLiveData.observe(this) {
+        presenter.inputSerialNumberLiveData.observe(this) {
             Log.d(TAG, "initObserver: inputSerialNumberLiveData: $it")
         }
 
-        loginPresenter.inputPasswordLiveData.observe(this) {
+        presenter.inputPasswordLiveData.observe(this) {
             Log.d(TAG, "initObserver: inputPasswordLiveData: $it")
         }
 
-        loginPresenter.accountLiveData.observe(this) {
+        presenter.accountLiveData.observe(this) {
             Log.d(TAG, "initObserver: account: $it")
             lifecycleScope.launchWhenStarted {
                 intentToOperateActivity(it.serialNumber, it.password)
             }
         }
-        loginPresenter.messageLiveData.observe(this) {
+        presenter.messageLiveData.observe(this) {
             Log.d(TAG, "initObserver: message: $it")
-            lifecycleScope.launchWhenStarted {
-                binding.tvResult.text = it
-            }
         }
     }
 
     private fun initListener() {
-        binding.editSerial.doOnTextChanged { text, _, _, _ ->
-            Log.d(TAG, "initListener: editSerial")
-            loginPresenter.inputSerialNumberLiveData.postValue(text.toString())
-        }
-        binding.editPwd.doOnTextChanged { text, _, _, _ ->
-            Log.d(TAG, "initListener: editPwd")
-            loginPresenter.inputPasswordLiveData.postValue(text.toString())
-        }
         binding.btnLogin.setOnClickListener {
             Log.d(TAG, "initListener: btnLogin")
-            loginPresenter.login(
-                binding.editSerial.text.toString(),
-                binding.editPwd.text.toString()
-            )
+            presenter.inputSerialNumberLiveData.value?.let { sn ->
+                presenter.inputPasswordLiveData.value?.let { pwd ->
+                    presenter.login(sn, pwd)
+                }
+            }
             this.hideKeyboard(this)
         }
         binding.btnMock1.setOnClickListener {
             Log.d(TAG, "initListener: btnMock1")
-            binding.editSerial.setText(MOCK_1_ACC_SN)
-            binding.editPwd.setText(MOCK_1_ACC_PWD)
+            presenter.inputSerialNumberLiveData.postValue(MOCK_1_ACC_SN)
+            presenter.inputPasswordLiveData.postValue(MOCK_1_ACC_PWD)
         }
         binding.btnMock2.setOnClickListener {
             Log.d(TAG, "initListener: btnMock2")
-            binding.editSerial.setText(MOCK_2_ACC_SN)
-            binding.editPwd.setText(MOCK_2_ACC_PWD)
+            presenter.inputSerialNumberLiveData.postValue(MOCK_2_ACC_SN)
+            presenter.inputPasswordLiveData.postValue(MOCK_2_ACC_PWD)
         }
         binding.btnMock3.setOnClickListener {
             Log.d(TAG, "initListener: btnMock3")
-            binding.editSerial.setText(MOCK_3_ACC_SN)
-            binding.editPwd.setText(MOCK_3_ACC_PWD)
+            presenter.inputSerialNumberLiveData.postValue(MOCK_3_ACC_SN)
+            presenter.inputPasswordLiveData.postValue(MOCK_3_ACC_PWD)
         }
         binding.btnMock4.setOnClickListener {
             Log.d(TAG, "initListener: btnMock4")
-            binding.editSerial.setText(MOCK_4_ACC_SN)
-            binding.editPwd.setText(MOCK_4_ACC_PWD)
+            presenter.inputSerialNumberLiveData.postValue(MOCK_4_ACC_SN)
+            presenter.inputPasswordLiveData.postValue(MOCK_4_ACC_PWD)
         }
-
     }
 
     private fun intentToOperateActivity(

@@ -11,3 +11,10 @@ fun AppCompatActivity.hideKeyboard(activity: AppCompatActivity) {
     val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.hideSoftInputFromWindow(view?.windowToken, 0)
 }
+
+fun AppCompatActivity.displayKeyboard(activity: AppCompatActivity) {
+    Log.d("Extensions", "displayKeyboard: activity: ${activity::class.java.simpleName}")
+    val view = activity.currentFocus
+    val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+}

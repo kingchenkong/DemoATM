@@ -6,9 +6,8 @@
     <data>
 
         <variable
-            name="accountViewModel"
+            name="presenter"
             type="com.kck.demoatm.interface_adapters.presenters.LoginPresenter" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -120,19 +119,12 @@
             android:hint=""
             android:inputType="text"
             android:orientation="horizontal"
-            android:text="@={accountViewModel.inputSerialNumberLiveData}"
+            android:text="@={presenter.inputSerialNumberLiveData}"
             android:textColor="@color/black"
             android:textSize="30dp"
             app:layout_constraintEnd_toEndOf="@id/gl_edge_end"
             app:layout_constraintStart_toStartOf="@id/gl_edge_start"
             app:layout_constraintTop_toBottomOf="@id/tv_serial" />
-
-        <!--        <androidx.constraintlayout.widget.Guideline-->
-        <!--            android:id="@+id/gl_edit_pwd_bot"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:orientation="horizontal"-->
-        <!--            app:layout_constraintGuide_percent="0.35" />-->
 
         <TextView
             android:id="@+id/tv_pwd"
@@ -154,7 +146,7 @@
             android:hint=""
             android:inputType="textPassword"
             android:orientation="horizontal"
-            android:text="@={accountViewModel.inputPasswordLiveData}"
+            android:text="@={presenter.inputPasswordLiveData}"
             android:textColor="@color/black"
             android:textSize="30dp"
             app:layout_constraintEnd_toEndOf="@id/gl_edge_end"
@@ -178,7 +170,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:gravity="center"
-            android:text="Result: "
+            android:text="@{presenter.messageLiveData}"
             android:textSize="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/gl_edge_end"
