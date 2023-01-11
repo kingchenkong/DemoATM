@@ -73,7 +73,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="@{presenter.nowAccount.serialNumber}"
+                    android:text="@{presenter.serialNumberLiveData}"
                     android:textColor="@android:color/black"
                     android:textSize="20dp" />
             </LinearLayout>
@@ -98,7 +98,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="@{presenter.textBalance}"
+                    android:text="@{presenter.balanceLiveData}"
                     android:textColor="@android:color/black"
                     android:textSize="20dp" />
             </LinearLayout>
@@ -156,7 +156,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:gravity="center"
-            android:text="@{presenter.textMessage}"
+            android:text="@{presenter.messageLiveData}"
             android:textSize="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/gl_edge_end"

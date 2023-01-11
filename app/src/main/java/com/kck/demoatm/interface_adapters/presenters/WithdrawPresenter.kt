@@ -17,16 +17,22 @@ class WithdrawPresenter : ViewModel() {
     private val withdrawUseCase: WithdrawUseCase by lazy { MyApplication().withdrawUseCase }
 
     val accountLiveData: MutableLiveData<Account> = MutableLiveData()
+    val serialNumberLiveData: MutableLiveData<String> = MutableLiveData()
+    val balanceLiveData: MutableLiveData<String> = MutableLiveData()
+    val nowAccount: Account
+        get() = accountLiveData.value ?: Account.defaultAccount
+    val textSerialNumber: String
+        get() = serialNumberLiveData.value ?: ""
+    val textBalance
+        get() = balanceLiveData ?: ""
+
     val messageLiveData: MutableLiveData<String> = MutableLiveData()
+    val textMessage: String
+        get() = messageLiveData.value ?: ""
+
     val inputAmountLiveData: MutableLiveData<String> = MutableLiveData()
     val inputAmountInt
         get() = (inputAmountLiveData.value ?: "0").toInt()
-
-    var nowAccount = Account.defaultAccount
-    val textBalance
-        get() = nowAccount.queryBalance().toString()
-    val textMessage: String
-        get() = messageLiveData.value ?: ""
 
     fun getAccount(serialNumber: String) {
         viewModelScope.launch {
@@ -34,7 +40,6 @@ class WithdrawPresenter : ViewModel() {
                 .onSuccess {
                     Log.d(TAG, "getAccount: success: $it")
                     accountLiveData.postValue(it)
-                    nowAccount = it
                 }
                 .onFailure {
                     Log.e(TAG, "getAccount: ${it.message}")
