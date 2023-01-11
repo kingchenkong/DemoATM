@@ -81,9 +81,10 @@ class TransferUseCase {
         sourceSN: String,
         destinationSN: String
     ): Result<Boolean> =
-        if (sourceSN == destinationSN) {
+        if (sourceSN != destinationSN) {
             Result.success(true)
         } else {
+            Log.e(TAG, "validatingDestAccount: ERROR_MSG_SAME_ACC")
             Result.failure(Throwable(ERROR_MSG_SAME_ACC))
         }
 

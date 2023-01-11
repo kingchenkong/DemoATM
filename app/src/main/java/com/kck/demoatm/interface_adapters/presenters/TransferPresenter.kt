@@ -65,7 +65,9 @@ class TransferPresenter : ViewModel() {
                 sourceAccount.queryBalance(),
                 destSNText,
                 inputAmountInt
-            ).onFailure { messageLiveData.postValue(it.message) }
+            )
+                .onSuccess { Log.d(TAG, "validating: OK.") }
+                .onFailure { messageLiveData.postValue(it.message) }
         }
     }
 
