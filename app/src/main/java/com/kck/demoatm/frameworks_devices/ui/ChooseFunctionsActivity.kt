@@ -21,6 +21,7 @@ class ChooseFunctionsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_choose_functions)
         binding.lifecycleOwner = this
+        binding.presenter = presenter
 
         lifecycleScope.launchWhenStarted {
             initObserver()
@@ -52,15 +53,12 @@ class ChooseFunctionsActivity : AppCompatActivity() {
     private fun initObserver() {
         presenter.textSNLiveData.observe(this) {
             Log.d(TAG, "initObserver: textSNLiveData: $it")
-            binding.tvSn.text = it
         }
         presenter.textPWDLiveData.observe(this) {
             Log.d(TAG, "initObserver: textPWDLiveData: $it")
-            binding.tvPwd.text = it
         }
         presenter.textBalanceLiveData.observe(this) {
             Log.d(TAG, "initObserver: textBalanceLiveData: $it")
-            binding.tvBalance.text = it
         }
         presenter.accountLiveData.observe(this) {
             Log.d(TAG, "initObserver: account: $it")

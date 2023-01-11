@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kck.demoatm.BuildConfig
 import com.kck.demoatm.application.MyApplication
 import com.kck.demoatm.entities.Account
 import com.kck.demoatm.use_cases.LoginUseCase
@@ -33,10 +34,14 @@ class ChooseFunctionPresenter : ViewModel() {
                 Log.e(TAG, "login: success, $it")
                 accountLiveData.postValue(it)
                 nowAccount = it
-                messageLiveData.postValue("Login success.")
+                if (BuildConfig.DEBUG) {
+                    messageLiveData.postValue("Login success.")
+                }
             }.onFailure {
                 Log.e(TAG, "login: fail, ${it.message}")
-                messageLiveData.postValue(it.message)
+                if (BuildConfig.DEBUG) {
+                    messageLiveData.postValue(it.message)
+                }
             }
         }
     }
