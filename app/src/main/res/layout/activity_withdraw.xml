@@ -146,6 +146,7 @@
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="5dp"
                 android:layout_weight="1"
+                android:onClick="@{()-> presenter.withdraw()}"
                 android:orientation="horizontal"
                 android:text="Withdraw"
                 android:textSize="18dp" />

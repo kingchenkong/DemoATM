@@ -49,7 +49,7 @@ class WithdrawActivity : AppCompatActivity() {
         binding.btnDeposit.setOnClickListener {
             Log.d(TAG, "initListener: btnDeposit:")
             this@WithdrawActivity.hideKeyboard(this@WithdrawActivity)
-            presenter.withdraw(presenter.nowAccount, presenter.inputAmountInt)
+            presenter.withdraw()
         }
     }
 
@@ -58,7 +58,6 @@ class WithdrawActivity : AppCompatActivity() {
             val sn: String = bundle.getString("sn") ?: ""
             val pwd = bundle.getString("pwd") ?: ""
             Log.d(TAG, "processIntent: sn: $sn, pwd: $pwd")
-
             presenter.getAccount(sn)
         }
     }

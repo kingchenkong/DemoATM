@@ -66,7 +66,8 @@ class TransferPresenter : ViewModel() {
                 destSNText,
                 inputAmountInt
             )
-                .onSuccess { Log.d(TAG, "validating: OK.") }
+                .onSuccess { Log.d(TAG, "validating: OK.")
+                messageLiveData.postValue("validating: OK.")}
                 .onFailure { messageLiveData.postValue(it.message) }
         }
     }

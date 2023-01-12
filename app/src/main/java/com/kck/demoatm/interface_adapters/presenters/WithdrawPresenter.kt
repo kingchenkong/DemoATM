@@ -31,7 +31,7 @@ class WithdrawPresenter : ViewModel() {
         get() = messageLiveData.value ?: ""
 
     val inputAmountLiveData: MutableLiveData<String> = MutableLiveData()
-    val inputAmountInt
+    private val inputAmountInt
         get() = (inputAmountLiveData.value ?: "0").toInt()
 
     fun getAccount(serialNumber: String) {
@@ -48,7 +48,9 @@ class WithdrawPresenter : ViewModel() {
         }
     }
 
-    fun withdraw(account: Account, money: Int) {
+    fun withdraw() {
+        val account: Account = nowAccount
+        val money: Int = inputAmountInt
         viewModelScope.launch {
             Log.d(TAG, "withdraw: acc: $account")
             withdrawUseCase.invoke(account.serialNumber, money)
